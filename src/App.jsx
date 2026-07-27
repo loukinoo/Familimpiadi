@@ -1,7 +1,7 @@
 /**
  * @file App.jsx
  * @description Componente radice dell'applicazione Familimpiadi.
- * Gestisce lo stato globale del torneo, la navigazione a schede e i permessi Admin.
+ * Supporta la selezione dinamica dell'anno (2026/2025), lo stato vuoto iniziale e il reset Admin.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -14,32 +14,43 @@ import HistoryArchive from './components/HistoryArchive';
 import SportsManager from './components/SportsManager';
 import AdminModal from './components/AdminModal';
 
-import { getStoredState, saveStoredState, subscribeToState } from './services/storageService';
+import {
+  getStoredStateForYear,
+  saveStoredStateForYear,
+  subscribeToYearState,
+  resetYearData,
+} from './services/storageService';
 import { createInitialTournamentState } from './services/tournamentLogic';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('leaderboard');
+  const [selectedYear, setSelectedYear] = useState(2026); // Default 2026!
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
 
-  // Stato globale dell'applicazione (recuperato da localStorage/Firestore)
-  const [appState, setAppState] = useState(() => getStoredState());
+  // Stato globale per l'anno selezionato (recuperato da localStorage/Firestore)
+  const [appState, setAppState] = useState(() => getStoredStateForYear(2026));
 
-  // Sincronizzazione in tempo reale via Firestore (se attivo)
+  // Quando cambia l'anno selezionato, carica i dati corrispondenti
   useEffect(() => {
-    const unsubscribe = subscribeToState((remoteState) => {
+    const loadedState = getStoredStateForYear(selectedYear);
+    setAppState(loadedState);
+
+    // Sincronizzazione in tempo reale via Firestore
+    const unsubscribe = subscribeToYearState(selectedYear, (remoteState) => {
       if (remoteState) {
         setAppState(remoteState);
       }
     });
-    return () => unsubscribe();
-  }, []);
 
-  // Funzione helper per aggiornare e salvare lo stato
+    return () => unsubscribe();
+  }, [selectedYear]);
+
+  // Funzione helper per aggiornare e salvare lo stato dell'anno selezionato
   const updateState = (updater) => {
     setAppState((prev) => {
       const nextState = typeof updater === 'function' ? updater(prev) : { ...prev, ...updater };
-      saveStoredState(nextState);
+      saveStoredStateForYear(selectedYear, nextState);
       return nextState;
     });
   };
@@ -52,7 +63,6 @@ export default function App() {
   // Salvataggio nuove coppie ed estrazione
   const handleSaveCouples = (newCouples, newParticipants) => {
     updateState((prev) => {
-      // Rigenera la struttura iniziale dei tornei per ogni sport con le nuove coppie
       const newSportsData = {};
       (prev.sports || []).forEach((sport) => {
         newSportsData[sport] = createInitialTournamentState(newCouples);
@@ -90,17 +100,25 @@ export default function App() {
     updateState({ suggestions: newSuggestions });
   };
 
+  // Reset dell'anno corrente da parte dell'Admin
+  const handleResetYearData = (yearToReset) => {
+    const blank = resetYearData(yearToReset);
+    setAppState(blank);
+  };
+
   return (
     <div className="app-layout">
-      {/* Top Navbar */}
+      {/* Top Navbar con selettore anno */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        selectedYear={selectedYear}
+        setSelectedYear={setSelectedYear}
         isAdmin={isAdmin}
         onOpenAdminModal={() => setIsAdminModalOpen(true)}
       />
 
-      {/* Main Content Body */}
+      {/* Body Principale */}
       <main className="main-content-container">
         {/* Banner con statistiche */}
         <HeroBanner state={appState} />
@@ -142,18 +160,17 @@ export default function App() {
 
       {/* Footer */}
       <footer className="footer-container">
-        <p>🏆 <strong>Familimpiadi</strong> - Sviluppato per le sfide annuali in famiglia.</p>
-        <p className="text-xs text-slate-500 mt-1">
-          Hosting statico compatibile con GitHub Pages | Real-time ready con Firebase.
-        </p>
+        <p>🏆 <strong>Familimpiadi</strong> - Edizione {selectedYear}. Sviluppato per la famiglia.</p>
       </footer>
 
-      {/* Modal Autenticazione Admin */}
+      {/* Modal Autenticazione Admin & Reset */}
       <AdminModal
         isOpen={isAdminModalOpen}
         onClose={() => setIsAdminModalOpen(false)}
         isAdmin={isAdmin}
         setIsAdmin={setIsAdmin}
+        selectedYear={selectedYear}
+        onResetYearData={handleResetYearData}
       />
     </div>
   );

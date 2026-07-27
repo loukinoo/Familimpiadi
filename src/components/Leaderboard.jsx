@@ -83,8 +83,11 @@ export default function Leaderboard({ state }) {
             <tbody>
               {leaderboard.map((item, index) => (
                 <tr key={item.couple} className={index < 3 ? 'top-row' : ''}>
-                  <td className="font-bold">
-                    {index === 0 ? '🥇 1' : index === 1 ? '🥈 2' : index === 2 ? '🥉 3' : index + 1}
+                  <td className="font-bold" style={{
+                    minWidth: '40px',
+                    textAlign: 'center'
+                  }}>
+                    {index === 0 ? '🥇 ' : index === 1 ? '🥈 ' : index === 2 ? '🥉 ' : `${index + 1} `}
                   </td>
                   <td className="font-semibold text-white">{item.couple}</td>
                   {sports.map((s) => (

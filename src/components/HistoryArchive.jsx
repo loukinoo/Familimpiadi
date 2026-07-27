@@ -41,24 +41,24 @@ export default function HistoryArchive() {
                 {edition.podium.map((p) => (
                   <div key={p.rank} className="podium-mini-item">
                     <span className="mini-rank">
-                      {p.rank === 1 ? '🥇 1º' : p.rank === 2 ? '🥈 2º' : '🥉 3º'}
+                      {p.rank === 1 ? '🥇 ' : p.rank === 2 ? '🥈 ' : '🥉 '}
                     </span>
                     <span className="mini-team">{p.couple}</span>
-                    <span className="mini-pts">{p.points} pt</span>
+                    <span className="mini-pts"> {p.points} pt</span>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="history-sports-section mt-4">
-              <h4>Disciplone Disputate</h4>
-              <div className="sports-pills">
+              <h4>Discipline Disputate</h4>
+              <ul className="sports-pills">
                 {edition.sports.map((sport) => (
-                  <span key={sport} className="history-sport-tag">
+                  <li key={sport} className="history-sport-tag" style={{ marginLeft: 20 }}>
                     {sport}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
 
             {edition.notes && (

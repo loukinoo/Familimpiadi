@@ -54,16 +54,7 @@ export default function FirstTimeIntro({ title = "Familimpiadi", storageKey = "t
   };
 
   if (!show) {
-    return (
-      <button 
-        onClick={handleReplay}
-        className="intro-replay-btn"
-        title="Riavvia effetto speciale di ingresso"
-      >
-        <Sparkles className="w-4 h-4 text-yellow-400 animate-spin-slow" />
-        <span>Effetto Ingresso</span>
-      </button>
-    );
+    return null;
   }
 
   return (

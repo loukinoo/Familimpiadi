@@ -19,11 +19,22 @@
     "Memory",
     "Muffin Pong"
   ],
-  "champion": "Kevin e Luca",
+  "champion": "Gabriel e Chio",
   "podium": [
-    { "rank": 1, "couple": "Kevin e Luca", "points": 42 },
-    { "rank": 2, "couple": "Corrado e Simona", "points": 38 },
-    { "rank": 3, "couple": "Sabrina ed Eloise", "points": 34 }
-  ],
-  "notes": "Edizione leggendaria disputata con 6 discipline ufficiali."
+    {
+      "rank": 1,
+      "couple": "Gabriel e Chio",
+      "points": 36
+    },
+    {
+      "rank": 2,
+      "couple": "Alessio e Alice",
+      "points": 33
+    },
+    {
+      "rank": 3,
+      "couple": "Luca e Kevin",
+      "points": 33
+    }
+  ]
 }

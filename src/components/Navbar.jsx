@@ -1,15 +1,23 @@
 /**
  * @file Navbar.jsx
- * @description Barra di navigazione principale reattiva con indicatore modalità Admin.
+ * @description Barra di navigazione reattiva con layout mobile dedicato per selettore anno e tab.
  */
 
 import React from 'react';
-import { Trophy, Swords, Shuffle, History, Lightbulb, ShieldCheck, Shield } from 'lucide-react';
+import { Trophy, Swords, Shuffle, History, Lightbulb, ShieldCheck, Shield, Calendar } from 'lucide-react';
+import { AVAILABLE_YEARS } from '../services/storageService';
 
-export default function Navbar({ activeTab, setActiveTab, isAdmin, onOpenAdminModal }) {
+export default function Navbar({
+  activeTab,
+  setActiveTab,
+  selectedYear,
+  setSelectedYear,
+  isAdmin,
+  onOpenAdminModal,
+}) {
   const navItems = [
     { id: 'leaderboard', label: 'Classifica', icon: Trophy },
-    { id: 'tournaments', label: 'Tornei Sport', icon: Swords },
+    { id: 'tournaments', label: 'Tornei', icon: Swords },
     { id: 'drawer', label: 'Estrazione Live', icon: Shuffle },
     { id: 'history', label: 'Storico', icon: History },
     { id: 'suggestions', label: 'Suggerimenti', icon: Lightbulb },
@@ -18,19 +26,53 @@ export default function Navbar({ activeTab, setActiveTab, isAdmin, onOpenAdminMo
   return (
     <header className="navbar-container">
       <div className="navbar-content">
-        {/* Brand logo */}
-        <div className="navbar-brand" onClick={() => setActiveTab('leaderboard')}>
-          <div className="brand-logo">
-            <Trophy className="w-6 h-6 text-amber-400 animate-pulse" />
+
+        {/* Riga Superiore: Brand + Selettore Anno + Admin Button */}
+        <div className="navbar-top-row">
+          <div className="navbar-brand" onClick={() => setActiveTab('leaderboard')}>
+            <div className="brand-logo">
+              <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400 animate-pulse" />
+            </div>
+            <div className="brand-text">
+              <span className="brand-title">Familimpiadi</span>
+            </div>
           </div>
-          <div className="brand-text">
-            <span className="brand-title">Familimpiadi</span>
-            <span className="brand-subtitle">Torneo Annuale</span>
+
+          <div className="navbar-top-right-group">
+            {/* Selettore Anno visibile sia su Mobile che Desktop */}
+            <div className="year-selector-box">
+              <Calendar className="w-4 h-4 text-amber-400 shrink-0" />
+              <select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(Number(e.target.value))}
+                className="year-dropdown"
+              >
+                {AVAILABLE_YEARS.map((y) => (
+                  <option key={y} value={y}>
+                    {y} {y === 2026 ? '🏆 (In corso)' : '📜 (Storico)'}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Pulsante Admin */}
+            <button
+              onClick={onOpenAdminModal}
+              className={`admin-toggle-btn ${isAdmin ? 'admin-active' : ''}`}
+              title={isAdmin ? 'Modalità Admin Attiva' : 'Sblocca Modalità Admin'}
+            >
+              {isAdmin ? (
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              ) : (
+                <Shield className="w-4 h-4 text-slate-400" />
+              )}
+              <span className="hidden xs:inline">{isAdmin ? 'Admin' : 'Accedi'}</span>
+            </button>
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <nav className="navbar-links">
+        {/* Riga Inferiore: Tab Navigazione Scorrevoli su Mobile */}
+        <nav className="navbar-links-scroll mt-3">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -47,26 +89,6 @@ export default function Navbar({ activeTab, setActiveTab, isAdmin, onOpenAdminMo
           })}
         </nav>
 
-        {/* Admin Button */}
-        <div className="navbar-actions">
-          <button
-            onClick={onOpenAdminModal}
-            className={`admin-toggle-btn ${isAdmin ? 'admin-active' : ''}`}
-            title={isAdmin ? "Modalità Admin Attiva" : "Sblocca Modalità Admin"}
-          >
-            {isAdmin ? (
-              <>
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                <span className="hidden sm:inline">Admin Attivo</span>
-              </>
-            ) : (
-              <>
-                <Shield className="w-4 h-4 text-slate-400" />
-                <span className="hidden sm:inline">Accedi Admin</span>
-              </>
-            )}
-          </button>
-        </div>
       </div>
     </header>
   );

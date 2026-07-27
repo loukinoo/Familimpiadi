@@ -30,7 +30,7 @@ export default function HeroBanner({ state }) {
             </div>
             <div className="stat-info">
               <span className="stat-value">{state.sports?.length || 0}</span>
-              <span className="stat-label">Disciplone</span>
+              <span className="stat-label">Discipline</span>
             </div>
           </div>
 

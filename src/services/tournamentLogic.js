@@ -1,8 +1,7 @@
 /**
  * @file tournamentLogic.js
- * @description Logica di generazione e avanzamento per tornei a piazzamento completo (non a eliminazione diretta).
- * Permette a tutte le 8 squadre di giocare lo stesso numero di partite (Quarti, Semifinali, Finali)
- * determinando le posizioni esatte dal 1º all'8º posto e i relativi punteggi.
+ * @description Logica di generazione e avanzamento per tornei a piazzamento completo.
+ * Supporta l'assegnazione e l'annullamento singolo/totale delle vittorie per ogni sport.
  */
 
 // Punteggi assegnati per ciascuna posizione finale
@@ -18,92 +17,127 @@ export const DEFAULT_POINTS_MAP = {
 };
 
 /**
- * Inizializza la struttura dei match per una disciplina dati gli 8 nomi delle squadre.
- * @param {Array<string>} couples - Lista di 8 coppie
- * @returns {Object} Struttura contenente i match organizzati per fase
+ * Algoritmo di mescolamento casuale Fisher-Yates
  */
-export function createInitialTournamentState(couples = []) {
-  // Se non ci sono 8 coppie, riempiamo con segnaposto
-  const teams = [...couples];
+export function shuffleArray(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+/**
+ * Inizializza la struttura dei match per una disciplina dati gli 8 nomi delle squadre.
+ */
+export function createInitialTournamentState(couples = [], randomize = true) {
+  let teams = [...couples];
   while (teams.length < 8) {
     teams.push(`Coppia ${teams.length + 1}`);
   }
 
+  if (randomize && teams.length >= 2) {
+    teams = shuffleArray(teams);
+  }
+
   return {
-    // Turno 1: Quarti di finale (Main)
     quarters: [
       { id: 'Q1', team1: teams[0], team2: teams[1], winner: null, loser: null },
       { id: 'Q2', team1: teams[2], team2: teams[3], winner: null, loser: null },
       { id: 'Q3', team1: teams[4], team2: teams[5], winner: null, loser: null },
       { id: 'Q4', team1: teams[6], team2: teams[7], winner: null, loser: null },
     ],
-    // Turno 2: Semifinali
     semis: {
-      // Per i posti 1º-4º
       main: [
         { id: 'SM1', team1: '', team2: '', winner: null, loser: null },
         { id: 'SM2', team1: '', team2: '', winner: null, loser: null },
       ],
-      // Per i posti 5º-8º (Consolation)
       consolation: [
         { id: 'SC1', team1: '', team2: '', winner: null, loser: null },
         { id: 'SC2', team1: '', team2: '', winner: null, loser: null },
       ],
     },
-    // Turno 3: Finali di posizione
     finals: [
       { id: 'F1', title: 'Finale 1º - 2º Posto', team1: '', team2: '', winner: null, loser: null, positions: [1, 2] },
       { id: 'F2', title: 'Finale 3º - 4º Posto', team1: '', team2: '', winner: null, loser: null, positions: [3, 4] },
       { id: 'F3', title: 'Finale 5º - 6º Posto', team1: '', team2: '', winner: null, loser: null, positions: [5, 6] },
       { id: 'F4', title: 'Finale 7º - 8º Posto', team1: '', team2: '', winner: null, loser: null, positions: [7, 8] },
     ],
-    // Classifica calcolata
     standings: {},
   };
 }
 
 /**
- * Aggiorna il vincitore di un match e fa avanzare automaticamente le squadre nei turni successivi.
- * @param {Object} tournamentState - Stato corrente del torneo
- * @param {string} matchId - ID del match modificato (es: 'Q1', 'SM1', 'F1')
- * @param {string} winnerTeam - Nome della squadra vincente
- * @returns {Object} Nuovo stato aggiornato del torneo
+ * Verifica se è già stato segnato almeno un vincitore nel torneo della disciplina.
  */
-export function setMatchWinner(tournamentState, matchId, winnerTeam) {
-  // Deep clone dello stato per immutabilità
+export function hasAnyWinner(sportData) {
+  if (!sportData) return false;
+  const quarters = sportData.quarters || [];
+  const semisMain = sportData.semis?.main || [];
+  const semisCons = sportData.semis?.consolation || [];
+  const finals = sportData.finals || [];
+
+  return (
+    quarters.some((m) => m.winner) ||
+    semisMain.some((m) => m.winner) ||
+    semisCons.some((m) => m.winner) ||
+    finals.some((m) => m.winner)
+  );
+}
+
+/**
+ * Resetta tutte le vittorie registrate per un singolo torneo mantenendo le sfide dei Quarti.
+ */
+export function resetSportVictories(tournamentState) {
   const state = JSON.parse(JSON.stringify(tournamentState));
 
-  // 1. Cerca il match nei quarti
-  const quarter = state.quarters.find((m) => m.id === matchId);
-  if (quarter) {
-    if (winnerTeam !== quarter.team1 && winnerTeam !== quarter.team2) return state;
-    quarter.winner = winnerTeam;
-    quarter.loser = winnerTeam === quarter.team1 ? quarter.team2 : quarter.team1;
-  }
+  state.quarters.forEach((m) => { m.winner = null; m.loser = null; });
+  state.semis.main.forEach((m) => { m.team1 = ''; m.team2 = ''; m.winner = null; m.loser = null; });
+  state.semis.consolation.forEach((m) => { m.team1 = ''; m.team2 = ''; m.winner = null; m.loser = null; });
+  state.finals.forEach((m) => { m.team1 = ''; m.team2 = ''; m.winner = null; m.loser = null; });
+  state.standings = {};
 
-  // Cerca nelle semifinali main
-  const smMatch = state.semis.main.find((m) => m.id === matchId);
-  if (smMatch && (winnerTeam === smMatch.team1 || winnerTeam === smMatch.team2)) {
-    smMatch.winner = winnerTeam;
-    smMatch.loser = winnerTeam === smMatch.team1 ? smMatch.team2 : smMatch.team1;
-  }
+  return state;
+}
 
-  // Cerca nelle semifinali consolation
-  const scMatch = state.semis.consolation.find((m) => m.id === matchId);
-  if (scMatch && (winnerTeam === scMatch.team1 || winnerTeam === scMatch.team2)) {
-    scMatch.winner = winnerTeam;
-    scMatch.loser = winnerTeam === scMatch.team1 ? scMatch.team2 : scMatch.team1;
-  }
+/**
+ * Resetta e rimescola le sfide dei Quarti di Finale per una specifica disciplina (Admin Action).
+ */
+export function reshuffleSportBracket(couples = []) {
+  return createInitialTournamentState(couples, true);
+}
 
-  // Cerca nelle finali
-  const finalMatch = state.finals.find((m) => m.id === matchId);
-  if (finalMatch && (winnerTeam === finalMatch.team1 || winnerTeam === finalMatch.team2)) {
-    finalMatch.winner = winnerTeam;
-    finalMatch.loser = winnerTeam === finalMatch.team1 ? finalMatch.team2 : finalMatch.team1;
+/**
+ * Aggiorna o annulla il vincitore di un match e fa avanzare/arretrare le squadre.
+ * Se winnerTeam è null o vuoto, annulla la vittoria del match specificato.
+ */
+export function setMatchWinner(tournamentState, matchId, winnerTeam) {
+  const state = JSON.parse(JSON.stringify(tournamentState));
+
+  // Cerca il match in tutti i turni
+  const allMatches = [
+    ...state.quarters,
+    ...state.semis.main,
+    ...state.semis.consolation,
+    ...state.finals,
+  ];
+
+  const targetMatch = allMatches.find((m) => m.id === matchId);
+  if (targetMatch) {
+    if (!winnerTeam) {
+      // Annullamento della vittoria singola
+      targetMatch.winner = null;
+      targetMatch.loser = null;
+    } else {
+      if (winnerTeam === targetMatch.team1 || winnerTeam === targetMatch.team2) {
+        targetMatch.winner = winnerTeam;
+        targetMatch.loser = winnerTeam === targetMatch.team1 ? targetMatch.team2 : targetMatch.team1;
+      }
+    }
   }
 
   // 2. Propaga le vincenti/perdenti dei Quarti alle Semifinali
-  // SM1 = Vin. Q1 vs Vin. Q2; SC1 = Per. Q1 vs Per. Q2
   const q1 = state.quarters[0];
   const q2 = state.quarters[1];
   const q3 = state.quarters[2];
@@ -114,11 +148,18 @@ export function setMatchWinner(tournamentState, matchId, winnerTeam) {
   state.semis.consolation[0].team1 = q1.loser || '';
   state.semis.consolation[0].team2 = q2.loser || '';
 
-  // SM2 = Vin. Q3 vs Vin. Q4; SC2 = Per. Q3 vs Per. Q4
   state.semis.main[1].team1 = q3.winner || '';
   state.semis.main[1].team2 = q4.winner || '';
   state.semis.consolation[1].team1 = q3.loser || '';
   state.semis.consolation[1].team2 = q4.loser || '';
+
+  // Clean-up semifinali se le squadre sono cambiate/svuotate
+  state.semis.main.concat(state.semis.consolation).forEach((m) => {
+    if (m.winner && m.winner !== m.team1 && m.winner !== m.team2) {
+      m.winner = null;
+      m.loser = null;
+    }
+  });
 
   // 3. Propaga dalle Semifinali alle Finali
   const sm1 = state.semis.main[0];
@@ -126,23 +167,18 @@ export function setMatchWinner(tournamentState, matchId, winnerTeam) {
   const sc1 = state.semis.consolation[0];
   const sc2 = state.semis.consolation[1];
 
-  // Finale 1º-2º: Vin SM1 vs Vin SM2
   state.finals[0].team1 = sm1.winner || '';
   state.finals[0].team2 = sm2.winner || '';
 
-  // Finale 3º-4º: Per SM1 vs Per SM2
   state.finals[1].team1 = sm1.loser || '';
   state.finals[1].team2 = sm2.loser || '';
 
-  // Finale 5º-6º: Vin SC1 vs Vin SC2
   state.finals[2].team1 = sc1.winner || '';
   state.finals[2].team2 = sc2.winner || '';
 
-  // Finale 7º-8º: Per SC1 vs Per SC2
   state.finals[3].team1 = sc1.loser || '';
   state.finals[3].team2 = sc2.loser || '';
 
-  // Reset dei vincitori delle finali se le squadre sono cambiate
   state.finals.forEach((f) => {
     if (f.winner && f.winner !== f.team1 && f.winner !== f.team2) {
       f.winner = null;
@@ -156,11 +192,6 @@ export function setMatchWinner(tournamentState, matchId, winnerTeam) {
   return state;
 }
 
-/**
- * Calcola i piazzamenti e i punti per una singola disciplina.
- * @param {Object} state - Stato del torneo
- * @returns {Object} Oggetto con le posizioni e i punti per ciascuna coppia
- */
 export function calculateStandings(state) {
   const standings = {};
 
@@ -189,16 +220,9 @@ export function calculateStandings(state) {
   return standings;
 }
 
-/**
- * Calcola la classifica generale sommando i punti di tutti gli sport.
- * @param {Object} sportsData - Oggetto contenente lo stato del torneo per ogni disciplina
- * @param {Array<string>} couples - Lista delle coppie
- * @returns {Array<Object>} Lista ordinata della classifica generale
- */
 export function calculateOverallLeaderboard(sportsData = {}, couples = []) {
   const leaderboardMap = {};
 
-  // Inizializza tutte le coppie a 0 punti
   couples.forEach((c) => {
     leaderboardMap[c] = {
       couple: c,
@@ -207,7 +231,6 @@ export function calculateOverallLeaderboard(sportsData = {}, couples = []) {
     };
   });
 
-  // Somma i punti di ogni disciplina
   Object.entries(sportsData).forEach(([sportName, tournamentState]) => {
     if (!tournamentState || !tournamentState.standings) return;
     Object.entries(tournamentState.standings).forEach(([team, info]) => {
@@ -219,6 +242,5 @@ export function calculateOverallLeaderboard(sportsData = {}, couples = []) {
     });
   });
 
-  // Converte in array e ordina decrescente per punti
   return Object.values(leaderboardMap).sort((a, b) => b.totalPoints - a.totalPoints);
 }

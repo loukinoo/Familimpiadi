@@ -1,11 +1,44 @@
 /**
  * @file LiveDrawer.jsx
- * @description Componente per l'estrazione visiva dal vivo delle coppie con soprannomi di squadra personalizzati.
+ * @description Componente per l'estrazione visiva dal vivo delle coppie con soprannomi di squadra personalizzati e legati ai componenti.
  */
 
 import React, { useState } from 'react';
 import { Shuffle, UserPlus, Trash2, Sparkles, CheckCircle2, Edit3, Save, AlertCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
+
+/**
+ * Assicura che i nomi originali dei componenti della coppia rimangano sempre legati al soprannome.
+ */
+function formatTeamNickname(inputNickname, currentCoupleString) {
+  const trimmed = inputNickname.trim();
+  if (!trimmed) return currentCoupleString;
+
+  // Se contiene già le parentesi con i componenti, usa la stringa completa
+  if (trimmed.includes('(') && trimmed.includes(')')) {
+    return trimmed;
+  }
+
+  // Estrai i componenti originali
+  let members = currentCoupleString;
+  const parenMatch = currentCoupleString.match(/\((.*?)\)/);
+  if (parenMatch) {
+    members = parenMatch[1];
+  } else {
+    // Se c'è un soprannome precedente tipo "Soprannome (Nome1 e Nome2)"
+    const nameParts = currentCoupleString.split(' (');
+    if (nameParts.length > 1) {
+      members = nameParts[1].replace(')', '');
+    }
+  }
+
+  // Se il soprannome inserito non include già i membri, li leghiamo tra parentesi
+  if (trimmed.toLowerCase() !== members.toLowerCase()) {
+    return `${trimmed} (${members})`;
+  }
+
+  return trimmed;
+}
 
 export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
   const [participants, setParticipants] = useState(state.participants || []);
@@ -74,16 +107,25 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
     }, 90);
   };
 
-  // Modifica il nome/soprannome della squadra
+  // Modifica il nome/soprannome della squadra preservando i componenti
   const handleStartEdit = (index, currentName) => {
     setEditingIndex(index);
-    setTempNickname(currentName);
+
+    // Se ha già un soprannome formato tipo "Soprannome (Nome1 e Nome2)", carica solo il soprannome per l'editing
+    const parenMatch = currentName.match(/^(.*?)\s*\((.*?)\)$/);
+    if (parenMatch) {
+      setTempNickname(parenMatch[1]);
+    } else {
+      setTempNickname(currentName);
+    }
   };
 
   const handleSaveNickname = (index) => {
-    if (!tempNickname.trim()) return;
+    const originalPairString = extractedCouples[index];
+    const formatted = formatTeamNickname(tempNickname, originalPairString);
+
     const updated = [...extractedCouples];
-    updated[index] = tempNickname.trim();
+    updated[index] = formatted;
     setExtractedCouples(updated);
     setEditingIndex(null);
   };
@@ -102,7 +144,7 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
           <Shuffle className="w-8 h-8 text-amber-400" />
         </div>
         <h2>🎲 Estrazione Coppie Casereccia</h2>
-        <p>Estrai dal vivo i duetti della famiglia e assegna soprannomi personalizzati alle squadre!</p>
+        <p>Estrai dal vivo i duetti della famiglia e assegna soprannomi personalizzati che mantengono legati i componenti!</p>
       </div>
 
       <div className="drawer-grid mt-6">
@@ -184,7 +226,7 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
                       className="nickname-edit-input"
                       value={tempNickname}
                       onChange={(e) => setTempNickname(e.target.value)}
-                      placeholder="Nome squadra (es: I Bombardieri)..."
+                      placeholder="Soprannome (es: I Bombardieri)..."
                       autoFocus
                     />
                   ) : (
@@ -206,7 +248,7 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
                       <button
                         onClick={() => handleStartEdit(index, couple)}
                         className="btn-icon-edit"
-                        title="Rinomina squadra"
+                        title="Assegna Soprannome"
                       >
                         <Edit3 className="w-4 h-4" />
                       </button>
