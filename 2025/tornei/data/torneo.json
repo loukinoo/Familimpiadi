@@ -1,0 +1,618 @@
+[
+    {
+        "Disciplina": "Biliardino",
+        "Round": "0",
+        "Match": "0",
+        "Squadra1": "a",
+        "Squadra2": "b",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Biliardino",
+        "Round": "0",
+        "Match": "1",
+        "Squadra1": "c",
+        "Squadra2": "d",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Biliardino",
+        "Round": "0",
+        "Match": "2",
+        "Squadra1": "e",
+        "Squadra2": "f",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Biliardino",
+        "Round": "0",
+        "Match": "3",
+        "Squadra1": "g",
+        "Squadra2": "h",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Biliardino",
+        "Round": "1",
+        "Match": "4",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Biliardino",
+        "Round": "1",
+        "Match": "5",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Biliardino",
+        "Round": "2",
+        "Match": "6",
+        "Squadra1": "a",
+        "Squadra2": "c",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Biliardino",
+        "Round": "2",
+        "Match": "7",
+        "Squadra1": "e",
+        "Squadra2": "g",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Biliardino",
+        "Round": "final",
+        "Match": "8",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Biliardino",
+        "Round": "final",
+        "Match": "9",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Biliardino",
+        "Round": "final",
+        "Match": "10",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Biliardino",
+        "Round": "final",
+        "Match": "11",
+        "Squadra1": "a",
+        "Squadra2": "e",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "",
+        "Round": "",
+        "Match": "",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bocce",
+        "Round": "0",
+        "Match": "0",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bocce",
+        "Round": "0",
+        "Match": "1",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bocce",
+        "Round": "0",
+        "Match": "2",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bocce",
+        "Round": "0",
+        "Match": "3",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bocce",
+        "Round": "1",
+        "Match": "4",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bocce",
+        "Round": "1",
+        "Match": "5",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bocce",
+        "Round": "2",
+        "Match": "6",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bocce",
+        "Round": "2",
+        "Match": "7",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bocce",
+        "Round": "final",
+        "Match": "8",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bocce",
+        "Round": "final",
+        "Match": "9",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bocce",
+        "Round": "final",
+        "Match": "10",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bocce",
+        "Round": "final",
+        "Match": "11",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "",
+        "Round": "",
+        "Match": "",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bowling",
+        "Round": "0",
+        "Match": "0",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bowling",
+        "Round": "0",
+        "Match": "1",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bowling",
+        "Round": "0",
+        "Match": "2",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bowling",
+        "Round": "0",
+        "Match": "3",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bowling",
+        "Round": "1",
+        "Match": "4",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bowling",
+        "Round": "1",
+        "Match": "5",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bowling",
+        "Round": "2",
+        "Match": "6",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bowling",
+        "Round": "2",
+        "Match": "7",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bowling",
+        "Round": "final",
+        "Match": "8",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bowling",
+        "Round": "final",
+        "Match": "9",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bowling",
+        "Round": "final",
+        "Match": "10",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Bowling",
+        "Round": "final",
+        "Match": "11",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "",
+        "Round": "",
+        "Match": "",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Equilibrio",
+        "Round": "0",
+        "Match": "0",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Equilibrio",
+        "Round": "0",
+        "Match": "1",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Equilibrio",
+        "Round": "0",
+        "Match": "2",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Equilibrio",
+        "Round": "0",
+        "Match": "3",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Equilibrio",
+        "Round": "1",
+        "Match": "4",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Equilibrio",
+        "Round": "1",
+        "Match": "5",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Equilibrio",
+        "Round": "2",
+        "Match": "6",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Equilibrio",
+        "Round": "2",
+        "Match": "7",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Equilibrio",
+        "Round": "final",
+        "Match": "8",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Equilibrio",
+        "Round": "final",
+        "Match": "9",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Equilibrio",
+        "Round": "final",
+        "Match": "10",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Equilibrio",
+        "Round": "final",
+        "Match": "11",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "",
+        "Round": "",
+        "Match": "",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Memory",
+        "Round": "0",
+        "Match": "0",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Memory",
+        "Round": "0",
+        "Match": "1",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Memory",
+        "Round": "0",
+        "Match": "2",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Memory",
+        "Round": "0",
+        "Match": "3",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Memory",
+        "Round": "1",
+        "Match": "4",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Memory",
+        "Round": "1",
+        "Match": "5",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Memory",
+        "Round": "2",
+        "Match": "6",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Memory",
+        "Round": "2",
+        "Match": "7",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Memory",
+        "Round": "final",
+        "Match": "8",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Memory",
+        "Round": "final",
+        "Match": "9",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Memory",
+        "Round": "final",
+        "Match": "10",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Memory",
+        "Round": "final",
+        "Match": "11",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "",
+        "Round": "",
+        "Match": "",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Muffin Pong",
+        "Round": "0",
+        "Match": "0",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Muffin Pong",
+        "Round": "0",
+        "Match": "1",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Muffin Pong",
+        "Round": "0",
+        "Match": "2",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Muffin Pong",
+        "Round": "0",
+        "Match": "3",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Muffin Pong",
+        "Round": "1",
+        "Match": "4",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Muffin Pong",
+        "Round": "1",
+        "Match": "5",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Muffin Pong",
+        "Round": "2",
+        "Match": "6",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Muffin Pong",
+        "Round": "2",
+        "Match": "7",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Muffin Pong",
+        "Round": "final",
+        "Match": "8",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Muffin Pong",
+        "Round": "final",
+        "Match": "9",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Muffin Pong",
+        "Round": "final",
+        "Match": "10",
+        "Squadra1": "",
+        "Squadra2": "",
+        "Vincitore": ""
+    },
+    {
+        "Disciplina": "Muffin Pong",
+        "Round": "final",
+        "Match": "11",
+        "Squadra1": "#N/A",
+        "Squadra2": "#N/A",
+        "Vincitore": ""
+    }
+]

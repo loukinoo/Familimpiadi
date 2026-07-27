@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.Scanner;
 
-public class Estrazione {
+public class EstrazioneCoppie {
 
     public static void main(String[] args) {
 
@@ -19,6 +19,7 @@ public class Estrazione {
             String persona2 = persone.get(ris2);
             persone.remove(ris2);
             System.out.println("La coppia "+i+" è formata da "+persona1+" e "+persona2);
+            i++;
         }
         tastiera.close();
     }

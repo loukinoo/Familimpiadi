@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Torneo Bocce</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f8f9fa; }
+    h1 { text-align: center; }
+    h2 { margin-top: 40px; text-align: center; }
+
+    /* Wrapper globale per centrare tutto */
+    .wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Container dei bracket */
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 60px;
+      margin-top: 40px;
+      position: relative;
+      width: 100%;
+    }
+
+    .bracket { display: flex; gap: 40px; }
+    .round { display: flex; flex-direction: column; justify-content: flex-start; min-height: 300px; align-items: center;}
+    .match { background: white; padding: 8px; border: 1px solid #ccc; border-radius: 8px; width: 200px; margin: auto; text-align: center; }
+    .team { padding: 5px; border-radius: 5px; cursor: pointer; font-weight: bold; border: 1px solid transparent; margin: 2px 0; }
+    .winner { background-color: #c8e6c9; border-color: #388e3c; }
+    .loser { background-color: #ffcdd2; border-color: #d32f2f; }
+
+    button { padding: 10px 20px; margin: 20px auto; display: block; border: none; border-radius: 6px; background: #007bff; color: white; cursor: pointer; }
+    button:hover { background: #0056b3; }
+
+    table { margin: 30px auto; border-collapse: collapse; background: white; }
+    th, td { border: 1px solid #ccc; padding: 8px 12px; }
+    th { background: #007bff; color: white; }
+
+    /* Finali verticali centrati */
+    .finals {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .finals .match { width: 200px; }
+    .final-title { text-align: center; font-weight: bold; margin-bottom: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Torneo di Bocce</h1>
+  <button onclick="exportCSV()">Esporta risultati in CSV</button>
+  <button onclick="resetTorneo()">Reset torneo</button>
+
+  <div class="container">
+    <div>
+      <h2>Consolation (5º–8º)</h2>
+      <div class="bracket" id="consolationBracket"></div>
+    </div>
+    <div>
+      <h2>Main Bracket</h2>
+      <div class="bracket" id="mainBracket"></div>
+    </div>
+  </div>
+
+  <h2>Finali di Posizione</h2>
+  <div class="finals" id="finals"></div>
+
+  <h2>Classifica Finale</h2>
+  <table id="classifica">
+    <thead>
+      <tr><th>Posizione</th><th>Squadra</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  /**
+   * Rende cliccabili solo se NON sei su mobile
+   * @param {HTMLElement} element - Il div o bottone del match
+   * @param {Function} onClickHandler - La funzione da eseguire al click
+   */
+  function makeSelectable(element, onClickHandler) {
+      if (!isMobile) {
+          element.addEventListener("click", onClickHandler);
+          element.style.cursor = "pointer";  // Mostra che è cliccabile
+      } else {
+          element.style.cursor = "default";  // Non cliccabile
+      }
+  }
+    let s = 0;
+    round = 0;
+    let squadre = ["EBrazy", "Le Ladies",
+"Procopio United", "Gli Agnolotti",
+"Neapolitan Baddies", "I Nonni",
+"Gli Interisti", "I Pastizzini"];
+    
+    const finals = [
+      { titolo: "Finale 1º-2º posto" },
+      { titolo: "Finale 3º-4º posto" },
+      { titolo: "Finale 5º-6º posto" },
+      { titolo: "Finale 7º-8º posto" }
+    ];
+
+    function createBracket(containerId, matchesPerRound, discipline, mirrored=false) {
+      let html = '';
+      matchesPerRound.forEach((numMatches, rIndex) => {
+        html += '<div class="round">';
+        if (round==0) {
+          for (let i = 0; i < numMatches; i++) {
+            html += `<div class='match' data-discipline='${discipline}' data-round='${rIndex}' data-match='${i+1}'>
+              <div class='team'>${squadre[s++]}</div>
+              <div class='team'>${squadre[s++]}</div>
+            </div>`;
+          }
+        } else {
+          for (let i = 0; i < numMatches; i++) {
+            html += `<div class='match' data-discipline='${discipline}' data-round='${rIndex}' data-match='${i+1}'>
+              <div class='team'></div>
+              <div class='team'></div>
+            </div>`;
+          }
+        }
+        round++
+        html += '</div>';
+      });
+      const container = document.getElementById(containerId);
+      container.innerHTML = html;
+      if (mirrored) container.style.flexDirection = 'row-reverse';
+    }
+
+    function createFinals(containerId, finals, discipline) {
+      let html = '';
+      finals.forEach(final => {
+        html += `<div class='match' data-discipline='${discipline}' data-round='final' data-match='1'>
+          <div class='final-title'>${final.titolo}</div>
+          <div class='team' contenteditable='true'></div>
+          <div class='team' contenteditable='true'></div>
+        </div>`;
+      });
+      document.getElementById(containerId).innerHTML = html;
+    }
+
+    createBracket("mainBracket", [4,2], "Bocce"); // Quarti e semifinali (senza finale)
+    createBracket("consolationBracket", [2], "Bocce", true);
+    createFinals("finals", finals, "Bocce");
+
+    function saveData() {
+        const data = [];
+        document.querySelectorAll(".match").forEach(match => {
+            const teams = match.querySelectorAll(".team");
+            data.push(Array.from(teams).map(t => ({
+            text: t.textContent,
+            winner: t.classList.contains("winner")
+            })));
+        });
+        localStorage.setItem("bocceData", JSON.stringify(data));
+    }
+
+    function loadData() {
+        const saved = localStorage.getItem("bocceData");
+        if (saved) {
+            const data = JSON.parse(saved);
+            const matches = document.querySelectorAll(".match");
+            matches.forEach((match, idx) => {
+            const teams = match.querySelectorAll(".team");
+            if (data[idx]) {
+                teams.forEach((t, i) => {
+                t.textContent = data[idx][i].text || '';
+                t.classList.remove("winner", "loser");
+                if (data[idx][i].winner) t.classList.add("winner");
+                else if (t.textContent) t.classList.add("loser");
+                });
+            }
+            });
+        }
+        aggiornaClassifica();
+    }
+
+    function resetTorneo() {
+      localStorage.removeItem("bocceData");
+      document.querySelectorAll(".team").forEach(t => { t.textContent = ''; t.classList.remove("winner", "loser"); });
+      document.querySelector("#classifica tbody").innerHTML = '';
+    }
+
+    document.querySelectorAll(".team").forEach(teamEl => {
+      if (!isMobile) {
+        teamEl.addEventListener("click", () => {
+          if (teamEl.textContent.trim() !== '') {
+            const match = teamEl.parentElement;
+            const teams = match.querySelectorAll(".team");
+            teams.forEach(t => t.classList.remove("winner", "loser"));
+            teamEl.classList.add("winner");
+            teams.forEach(t => { if(t !== teamEl) t.classList.add("loser"); });
+            aggiornaTurni(match, teamEl.textContent);
+            saveData();
+            aggiornaClassifica();
+          }
+        });
+        teamEl.style.cursor = "pointer"; // mostro che è cliccabile
+      } else {
+        teamEl.style.cursor = "default"; // non cliccabile su mobile
+      }
+    });
+
+    function aggiornaTurni(match, winnerName) {
+        const parentId = match.parentElement.parentElement.id;
+        const roundIndex = parseInt(match.dataset.round);
+        const matchNum = parseInt(match.dataset.match);
+
+        if (parentId === 'mainBracket') {
+            if (roundIndex === 0) { // Quarto → Semifinali
+            const target = document.querySelector(`#mainBracket .round:nth-child(2) .match:nth-child(${Math.ceil(matchNum/2)}) .team:nth-child(${matchNum%2===1?1:2})`);
+            if (target) target.textContent = winnerName;
+
+            const loserName = [...match.querySelectorAll('.team')].find(t => t.textContent !== winnerName).textContent;
+            const consTarget = document.querySelector(`#consolationBracket .round:nth-child(1) .match:nth-child(${Math.ceil(matchNum/2)}) .team:nth-child(${matchNum%2===1?1:2})`);
+            if (consTarget && !consTarget.textContent) consTarget.textContent = loserName;
+
+            } else if (roundIndex === 1) { // Semifinali → Finali centrali
+            // Differenzia le due semifinali
+            const finalsTargets = document.querySelectorAll(`#finals .match`);
+            if (matchNum === 1) { // prima semifinale
+                finalsTargets[0].querySelectorAll('.team')[0].textContent = winnerName; // 1º-2º
+                finalsTargets[1].querySelectorAll('.team')[0].textContent = [...match.querySelectorAll('.team')].find(t => t.textContent !== winnerName).textContent; // 3º-4º
+            } else if (matchNum === 2) { // seconda semifinale
+                finalsTargets[0].querySelectorAll('.team')[1].textContent = winnerName; // 1º-2º
+                finalsTargets[1].querySelectorAll('.team')[1].textContent = [...match.querySelectorAll('.team')].find(t => t.textContent !== winnerName).textContent; // 3º-4º
+            }
+            }
+        } else if (parentId === 'consolationBracket') {
+            if (roundIndex === 0) { // Semifinali consolation
+            const finalsTargets = document.querySelectorAll(`#finals .match`);
+            if (matchNum === 1) { // prima semifinale consolazione
+                finalsTargets[2].querySelectorAll('.team')[0].textContent = winnerName; // 5º-6º
+                finalsTargets[3].querySelectorAll('.team')[0].textContent = [...match.querySelectorAll('.team')].find(t => t.textContent !== winnerName).textContent; // 7º-8º
+            } else if (matchNum === 2) { // seconda semifinale consolazione
+                finalsTargets[2].querySelectorAll('.team')[1].textContent = winnerName; // 5º-6º
+                finalsTargets[3].querySelectorAll('.team')[1].textContent = [...match.querySelectorAll('.team')].find(t => t.textContent !== winnerName).textContent; // 7º-8º
+            }
+            }
+        }
+    }
+
+    function aggiornaClassifica() {
+        const tbody = document.querySelector("#classifica tbody");
+        tbody.innerHTML = '';
+        const finalMatches = document.querySelectorAll("#finals .match");
+        const posizioni = ["1º","3º","5º","7º"];
+        finalMatches.forEach((match, idx) => {
+            const teams = match.querySelectorAll(".team");
+            let winner='', loser='';
+            if (teams[0].classList.contains('winner')) { winner=teams[0].textContent; loser=teams[1].textContent; }
+            else if (teams[1].classList.contains('winner')) { winner=teams[1].textContent; loser=teams[0].textContent; }
+            else { winner=teams[0].textContent; loser=teams[1].textContent; } // fallback se non selezionato
+            if (winner && loser) {
+            tbody.innerHTML += `<tr><td>${posizioni[idx]}</td><td>${winner}</td></tr>`;
+            tbody.innerHTML += `<tr><td>${parseInt(posizioni[idx]) +1}º</td><td>${loser}</td></tr>`;
+            }
+        });
+    }
+
+    function exportCSV() {
+        let rows = ['MATCHES'];
+        rows.push('Disciplina,Turno,Match,Squadra 1,Squadra 2,Vincitore');
+
+        // Sezione match
+        document.querySelectorAll(".match").forEach(match => {
+            const discipline = match.dataset.discipline;
+            const round = match.dataset.round;
+            const matchNum = match.dataset.match;
+            const teams = match.querySelectorAll('.team');
+            const team1 = teams[0].textContent;
+            const team2 = teams[1] ? teams[1].textContent : '';
+            let winner = '';
+            if (teams[0].classList.contains('winner')) winner = team1;
+            else if (teams[1].classList.contains('winner')) winner = team2;
+            rows.push(`${discipline},${round},${matchNum},${team1},${team2},${winner}`);
+        });
+
+        rows.push(''); // Riga vuota per separare
+        rows.push('FINAL RANKING');
+        rows.push('Posizione,Squadra');
+
+        // Sezione classifica finale
+        const finalMatches = document.querySelectorAll("#finals .match");
+        const posizioni = ["1º","3º","5º","7º"];
+        finalMatches.forEach((match, idx) => {
+            const teams = match.querySelectorAll(".team");
+            let winner='', loser='';
+            if (teams[0].classList.contains('winner')) { winner=teams[0].textContent; loser=teams[1].textContent; }
+            else if (teams[1].classList.contains('winner')) { winner=teams[1].textContent; loser=teams[0].textContent; }
+            else { winner=teams[0].textContent; loser=teams[1].textContent; } // fallback
+            if (winner && loser) {
+            rows.push(`${posizioni[idx]},${winner}`);
+            rows.push(`${parseInt(posizioni[idx]) +1}º,${loser}`);
+            }
+        });
+
+        const csvContent = rows.join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'risultati_bocce.csv';
+        a.click();
+    }
+    
+    window.onload = loadData;
+  </script>
+</body>
+</html>

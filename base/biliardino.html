@@ -80,6 +80,25 @@
   </table>
 
   <script>
+  // Riconosce se il dispositivo è mobile
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  /**
+   * Rende cliccabili solo se NON sei su mobile
+   * @param {HTMLElement} element - Il div o bottone del match
+   * @param {Function} onClickHandler - La funzione da eseguire al click
+   */
+  function makeSelectable(element, onClickHandler) {
+      if (!isMobile) {
+          element.addEventListener("click", onClickHandler);
+          element.style.cursor = "pointer";  // Mostra che è cliccabile
+      } else {
+          element.style.cursor = "default";  // Non cliccabile
+      }
+  }
+    let s = 0;
+    round = 0;
+    let squadre = ["Neapolitan Baddies", "Gli Interisti", "I Pastizzini", "Gli Agnolotti", "EBrazy", "Procopio United" ,"Le Ladies", "I Nonni",];
     const finals = [
       { titolo: "Finale 1º-2º posto" },
       { titolo: "Finale 3º-4º posto" },
@@ -91,12 +110,22 @@
       let html = '';
       matchesPerRound.forEach((numMatches, rIndex) => {
         html += '<div class="round">';
-        for (let i = 0; i < numMatches; i++) {
-          html += `<div class='match' data-discipline='${discipline}' data-round='${rIndex}' data-match='${i+1}'>
-            <div class='team' contenteditable='true';></div>
-            <div class='team' contenteditable='true'></div>
-          </div>`;
+        if (round==0) {
+          for (let i = 0; i < numMatches; i++) {
+            html += `<div class='match' data-discipline='${discipline}' data-round='${rIndex}' data-match='${i+1}'>
+              <div class='team'>${squadre[s++]}</div>
+              <div class='team'>${squadre[s++]}</div>
+            </div>`;
+          }
+        } else {
+          for (let i = 0; i < numMatches; i++) {
+            html += `<div class='match' data-discipline='${discipline}' data-round='${rIndex}' data-match='${i+1}'>
+              <div class='team'></div>
+              <div class='team'></div>
+            </div>`;
+          }
         }
+        round++
         html += '</div>';
       });
       const container = document.getElementById(containerId);
@@ -158,16 +187,23 @@
       document.querySelector("#classifica tbody").innerHTML = '';
     }
 
-    document.addEventListener("click", (e) => {
-      if (e.target.classList.contains("team") && e.target.textContent.trim() !== '') {
-        const match = e.target.parentElement;
-        const teams = match.querySelectorAll(".team");
-        teams.forEach(t => t.classList.remove("winner", "loser"));
-        e.target.classList.add("winner");
-        teams.forEach(t => { if(t !== e.target) t.classList.add("loser"); });
-        aggiornaTurni(match, e.target.textContent);
-        saveData();
-        aggiornaClassifica();
+    document.querySelectorAll(".team").forEach(teamEl => {
+      if (!isMobile) {
+        teamEl.addEventListener("click", () => {
+          if (teamEl.textContent.trim() !== '') {
+            const match = teamEl.parentElement;
+            const teams = match.querySelectorAll(".team");
+            teams.forEach(t => t.classList.remove("winner", "loser"));
+            teamEl.classList.add("winner");
+            teams.forEach(t => { if(t !== teamEl) t.classList.add("loser"); });
+            aggiornaTurni(match, teamEl.textContent);
+            saveData();
+            aggiornaClassifica();
+          }
+        });
+        teamEl.style.cursor = "pointer"; // mostro che è cliccabile
+      } else {
+        teamEl.style.cursor = "default"; // non cliccabile su mobile
       }
     });
 

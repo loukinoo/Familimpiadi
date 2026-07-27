@@ -1,0 +1,29 @@
+{
+  "year": 2025,
+  "title": "Familimpiadi 2025",
+  "couples": [
+    "Kevin e Luca",
+    "Corrado e Simona",
+    "Naima e Susy",
+    "Malaika e Tristan",
+    "Sabrina ed Eloise",
+    "Alessio e Alice",
+    "Gabriel e Chio",
+    "Savannah e Riccardo"
+  ],
+  "sports": [
+    "Biliardino",
+    "Bocce",
+    "Bowling",
+    "Equilibrio",
+    "Memory",
+    "Muffin Pong"
+  ],
+  "champion": "Kevin e Luca",
+  "podium": [
+    { "rank": 1, "couple": "Kevin e Luca", "points": 42 },
+    { "rank": 2, "couple": "Corrado e Simona", "points": 38 },
+    { "rank": 3, "couple": "Sabrina ed Eloise", "points": 34 }
+  ],
+  "notes": "Edizione leggendaria disputata con 6 discipline ufficiali."
+}
