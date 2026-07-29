@@ -1,6 +1,6 @@
 /**
  * @file Navbar.jsx
- * @description Barra di navigazione reattiva con layout mobile dedicato per selettore anno e tab.
+ * @description Barra di navigazione reattiva con disposizione verticale mobile per Brand, Selettore Anno e Pulsante Accedi.
  */
 
 import React from 'react';
@@ -27,7 +27,7 @@ export default function Navbar({
     <header className="navbar-container">
       <div className="navbar-content">
 
-        {/* Riga Superiore: Brand + Selettore Anno + Admin Button */}
+        {/* Riga Superiore: Brand + Selettore Anno + Admin Button (Verticali su Mobile, Orizzontali su Desktop) */}
         <div className="navbar-top-row">
           <div className="navbar-brand" onClick={() => setActiveTab('leaderboard')}>
             <div className="brand-logo">
@@ -39,7 +39,7 @@ export default function Navbar({
           </div>
 
           <div className="navbar-top-right-group">
-            {/* Selettore Anno visibile sia su Mobile che Desktop */}
+            {/* Selettore Anno */}
             <div className="year-selector-box">
               <Calendar className="w-4 h-4 text-amber-400 shrink-0" />
               <select
@@ -66,13 +66,13 @@ export default function Navbar({
               ) : (
                 <Shield className="w-4 h-4 text-slate-400" />
               )}
-              <span className="hidden xs:inline">{isAdmin ? 'Admin' : 'Accedi'}</span>
+              <span>{isAdmin ? 'Admin Attivo' : 'Accedi Admin'}</span>
             </button>
           </div>
         </div>
 
         {/* Riga Inferiore: Tab Navigazione Scorrevoli su Mobile */}
-        <nav className="navbar-links-scroll mt-3">
+        <nav className="navbar-links-scroll mt-2">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;

@@ -1,0 +1,941 @@
+{
+    "couples": [
+        "EBrazy (Kevin e Luca)",
+        "I Nonni (Corrado e Simona)",
+        "Neapolitan Baddies (Naima e Susy)",
+        "Procopio United (Malaika e Tristan)",
+        "Le Ladies (Sabrina ed Eloise)",
+        "Gli Interisti (Alessio e Alice)",
+        "Gli Agnolotti (Gabriel e Chio)",
+        "I Pastizzini (Savannah e Riccardo)"
+    ],
+    "participants": [
+        "Kevin",
+        "Luca",
+        "Corrado",
+        "Simona",
+        "Naima",
+        "Susy",
+        "Malaika",
+        "Tristan",
+        "Sabrina",
+        "Eloise",
+        "Alessio",
+        "Alice",
+        "Gabriel",
+        "Chio",
+        "Savannah",
+        "Riccardo"
+    ],
+    "sports": [
+        "Biliardino",
+        "Bocce",
+        "Bowling",
+        "Equilibrio",
+        "Memory",
+        "Muffin Pong"
+    ],
+    "sportsData": {
+        "Biliardino": {
+            "quarters": [
+                {
+                    "loser": "Neapolitan Baddies (Naima e Susy)",
+                    "winner": "Gli Interisti (Alessio e Alice)",
+                    "team1": "Neapolitan Baddies (Naima e Susy)",
+                    "team2": "Gli Interisti (Alessio e Alice)",
+                    "id": "Q1"
+                },
+                {
+                    "id": "Q2",
+                    "loser": "I Pastizzini (Savannah e Riccardo)",
+                    "winner": "Gli Agnolotti (Gabriel e Chio)",
+                    "team1": "I Pastizzini (Savannah e Riccardo)",
+                    "team2": "Gli Agnolotti (Gabriel e Chio)"
+                },
+                {
+                    "loser": "Procopio United (Malaika e Tristan)",
+                    "winner": "EBrazy (Kevin e Luca)",
+                    "team2": "Procopio United (Malaika e Tristan)",
+                    "team1": "EBrazy (Kevin e Luca)",
+                    "id": "Q3"
+                },
+                {
+                    "winner": "I Nonni (Corrado e Simona)",
+                    "team2": "I Nonni (Corrado e Simona)",
+                    "team1": "Le Ladies (Sabrina ed Eloise)",
+                    "loser": "Le Ladies (Sabrina ed Eloise)",
+                    "id": "Q4"
+                }
+            ],
+            "finals": [
+                {
+                    "id": "F1",
+                    "positions": [
+                        1,
+                        2
+                    ],
+                    "team2": "EBrazy (Kevin e Luca)",
+                    "team1": "Gli Agnolotti (Gabriel e Chio)",
+                    "winner": "EBrazy (Kevin e Luca)",
+                    "title": "Finale 1º - 2º Posto",
+                    "loser": "Gli Agnolotti (Gabriel e Chio)"
+                },
+                {
+                    "positions": [
+                        3,
+                        4
+                    ],
+                    "id": "F2",
+                    "title": "Finale 3º - 4º Posto",
+                    "loser": "I Nonni (Corrado e Simona)",
+                    "team1": "Gli Interisti (Alessio e Alice)",
+                    "team2": "I Nonni (Corrado e Simona)",
+                    "winner": "Gli Interisti (Alessio e Alice)"
+                },
+                {
+                    "positions": [
+                        5,
+                        6
+                    ],
+                    "id": "F3",
+                    "loser": "Procopio United (Malaika e Tristan)",
+                    "title": "Finale 5º - 6º Posto",
+                    "winner": "I Pastizzini (Savannah e Riccardo)",
+                    "team2": "Procopio United (Malaika e Tristan)",
+                    "team1": "I Pastizzini (Savannah e Riccardo)"
+                },
+                {
+                    "positions": [
+                        7,
+                        8
+                    ],
+                    "id": "F4",
+                    "title": "Finale 7º - 8º Posto",
+                    "loser": "Le Ladies (Sabrina ed Eloise)",
+                    "team2": "Le Ladies (Sabrina ed Eloise)",
+                    "team1": "Neapolitan Baddies (Naima e Susy)",
+                    "winner": "Neapolitan Baddies (Naima e Susy)"
+                }
+            ],
+            "semis": {
+                "consolation": [
+                    {
+                        "winner": "I Pastizzini (Savannah e Riccardo)",
+                        "team1": "Neapolitan Baddies (Naima e Susy)",
+                        "team2": "I Pastizzini (Savannah e Riccardo)",
+                        "loser": "Neapolitan Baddies (Naima e Susy)",
+                        "id": "SC1"
+                    },
+                    {
+                        "id": "SC2",
+                        "loser": "Le Ladies (Sabrina ed Eloise)",
+                        "team1": "Procopio United (Malaika e Tristan)",
+                        "team2": "Le Ladies (Sabrina ed Eloise)",
+                        "winner": "Procopio United (Malaika e Tristan)"
+                    }
+                ],
+                "main": [
+                    {
+                        "id": "SM1",
+                        "team2": "Gli Agnolotti (Gabriel e Chio)",
+                        "team1": "Gli Interisti (Alessio e Alice)",
+                        "winner": "Gli Agnolotti (Gabriel e Chio)",
+                        "loser": "Gli Interisti (Alessio e Alice)"
+                    },
+                    {
+                        "winner": "EBrazy (Kevin e Luca)",
+                        "team2": "I Nonni (Corrado e Simona)",
+                        "team1": "EBrazy (Kevin e Luca)",
+                        "loser": "I Nonni (Corrado e Simona)",
+                        "id": "SM2"
+                    }
+                ]
+            },
+            "standings": {
+                "Gli Agnolotti (Gabriel e Chio)": {
+                    "points": 7,
+                    "rank": 2
+                },
+                "Procopio United (Malaika e Tristan)": {
+                    "points": 3,
+                    "rank": 6
+                },
+                "Neapolitan Baddies (Naima e Susy)": {
+                    "points": 2,
+                    "rank": 7
+                },
+                "Gli Interisti (Alessio e Alice)": {
+                    "points": 6,
+                    "rank": 3
+                },
+                "Le Ladies (Sabrina ed Eloise)": {
+                    "points": 1,
+                    "rank": 8
+                },
+                "I Nonni (Corrado e Simona)": {
+                    "rank": 4,
+                    "points": 5
+                },
+                "I Pastizzini (Savannah e Riccardo)": {
+                    "points": 4,
+                    "rank": 5
+                },
+                "EBrazy (Kevin e Luca)": {
+                    "rank": 1,
+                    "points": 8
+                }
+            }
+        },
+        "Equilibrio": {
+            "standings": {
+                "Procopio United (Malaika e Tristan)": {
+                    "points": 5,
+                    "rank": 4
+                },
+                "Gli Agnolotti (Gabriel e Chio)": {
+                    "points": 7,
+                    "rank": 2
+                },
+                "Neapolitan Baddies (Naima e Susy)": {
+                    "rank": 3,
+                    "points": 6
+                },
+                "I Nonni (Corrado e Simona)": {
+                    "rank": 1,
+                    "points": 8
+                },
+                "Le Ladies (Sabrina ed Eloise)": {
+                    "rank": 6,
+                    "points": 3
+                },
+                "Gli Interisti (Alessio e Alice)": {
+                    "points": 1,
+                    "rank": 8
+                },
+                "EBrazy (Kevin e Luca)": {
+                    "points": 2,
+                    "rank": 7
+                },
+                "I Pastizzini (Savannah e Riccardo)": {
+                    "rank": 5,
+                    "points": 4
+                }
+            },
+            "quarters": [
+                {
+                    "team1": "Le Ladies (Sabrina ed Eloise)",
+                    "team2": "I Nonni (Corrado e Simona)",
+                    "winner": "I Nonni (Corrado e Simona)",
+                    "loser": "Le Ladies (Sabrina ed Eloise)",
+                    "id": "Q1"
+                },
+                {
+                    "winner": "Neapolitan Baddies (Naima e Susy)",
+                    "team1": "Gli Interisti (Alessio e Alice)",
+                    "team2": "Neapolitan Baddies (Naima e Susy)",
+                    "loser": "Gli Interisti (Alessio e Alice)",
+                    "id": "Q2"
+                },
+                {
+                    "winner": "Procopio United (Malaika e Tristan)",
+                    "team2": "I Pastizzini (Savannah e Riccardo)",
+                    "team1": "Procopio United (Malaika e Tristan)",
+                    "loser": "I Pastizzini (Savannah e Riccardo)",
+                    "id": "Q3"
+                },
+                {
+                    "id": "Q4",
+                    "loser": "EBrazy (Kevin e Luca)",
+                    "team2": "Gli Agnolotti (Gabriel e Chio)",
+                    "team1": "EBrazy (Kevin e Luca)",
+                    "winner": "Gli Agnolotti (Gabriel e Chio)"
+                }
+            ],
+            "semis": {
+                "consolation": [
+                    {
+                        "id": "SC1",
+                        "team1": "Le Ladies (Sabrina ed Eloise)",
+                        "team2": "Gli Interisti (Alessio e Alice)",
+                        "winner": "Le Ladies (Sabrina ed Eloise)",
+                        "loser": "Gli Interisti (Alessio e Alice)"
+                    },
+                    {
+                        "id": "SC2",
+                        "team2": "EBrazy (Kevin e Luca)",
+                        "team1": "I Pastizzini (Savannah e Riccardo)",
+                        "winner": "I Pastizzini (Savannah e Riccardo)",
+                        "loser": "EBrazy (Kevin e Luca)"
+                    }
+                ],
+                "main": [
+                    {
+                        "loser": "Neapolitan Baddies (Naima e Susy)",
+                        "winner": "I Nonni (Corrado e Simona)",
+                        "team2": "Neapolitan Baddies (Naima e Susy)",
+                        "team1": "I Nonni (Corrado e Simona)",
+                        "id": "SM1"
+                    },
+                    {
+                        "id": "SM2",
+                        "team2": "Gli Agnolotti (Gabriel e Chio)",
+                        "team1": "Procopio United (Malaika e Tristan)",
+                        "winner": "Gli Agnolotti (Gabriel e Chio)",
+                        "loser": "Procopio United (Malaika e Tristan)"
+                    }
+                ]
+            },
+            "finals": [
+                {
+                    "loser": "Gli Agnolotti (Gabriel e Chio)",
+                    "title": "Finale 1º - 2º Posto",
+                    "winner": "I Nonni (Corrado e Simona)",
+                    "team1": "I Nonni (Corrado e Simona)",
+                    "team2": "Gli Agnolotti (Gabriel e Chio)",
+                    "positions": [
+                        1,
+                        2
+                    ],
+                    "id": "F1"
+                },
+                {
+                    "id": "F2",
+                    "positions": [
+                        3,
+                        4
+                    ],
+                    "team2": "Procopio United (Malaika e Tristan)",
+                    "team1": "Neapolitan Baddies (Naima e Susy)",
+                    "winner": "Neapolitan Baddies (Naima e Susy)",
+                    "title": "Finale 3º - 4º Posto",
+                    "loser": "Procopio United (Malaika e Tristan)"
+                },
+                {
+                    "loser": "Le Ladies (Sabrina ed Eloise)",
+                    "title": "Finale 5º - 6º Posto",
+                    "winner": "I Pastizzini (Savannah e Riccardo)",
+                    "team2": "I Pastizzini (Savannah e Riccardo)",
+                    "team1": "Le Ladies (Sabrina ed Eloise)",
+                    "positions": [
+                        5,
+                        6
+                    ],
+                    "id": "F3"
+                },
+                {
+                    "loser": "Gli Interisti (Alessio e Alice)",
+                    "title": "Finale 7º - 8º Posto",
+                    "winner": "EBrazy (Kevin e Luca)",
+                    "team1": "Gli Interisti (Alessio e Alice)",
+                    "team2": "EBrazy (Kevin e Luca)",
+                    "positions": [
+                        7,
+                        8
+                    ],
+                    "id": "F4"
+                }
+            ]
+        },
+        "Memory": {
+            "standings": {
+                "Neapolitan Baddies (Naima e Susy)": {
+                    "rank": 7,
+                    "points": 2
+                },
+                "Gli Agnolotti (Gabriel e Chio)": {
+                    "points": 4,
+                    "rank": 5
+                },
+                "Procopio United (Malaika e Tristan)": {
+                    "rank": 6,
+                    "points": 3
+                },
+                "I Pastizzini (Savannah e Riccardo)": {
+                    "points": 7,
+                    "rank": 2
+                },
+                "EBrazy (Kevin e Luca)": {
+                    "points": 6,
+                    "rank": 3
+                },
+                "Gli Interisti (Alessio e Alice)": {
+                    "points": 8,
+                    "rank": 1
+                },
+                "Le Ladies (Sabrina ed Eloise)": {
+                    "rank": 4,
+                    "points": 5
+                },
+                "I Nonni (Corrado e Simona)": {
+                    "points": 1,
+                    "rank": 8
+                }
+            },
+            "finals": [
+                {
+                    "team1": "Gli Interisti (Alessio e Alice)",
+                    "team2": "I Pastizzini (Savannah e Riccardo)",
+                    "winner": "Gli Interisti (Alessio e Alice)",
+                    "title": "Finale 1º - 2º Posto",
+                    "loser": "I Pastizzini (Savannah e Riccardo)",
+                    "id": "F1",
+                    "positions": [
+                        1,
+                        2
+                    ]
+                },
+                {
+                    "positions": [
+                        3,
+                        4
+                    ],
+                    "id": "F2",
+                    "title": "Finale 3º - 4º Posto",
+                    "loser": "Le Ladies (Sabrina ed Eloise)",
+                    "team2": "EBrazy (Kevin e Luca)",
+                    "team1": "Le Ladies (Sabrina ed Eloise)",
+                    "winner": "EBrazy (Kevin e Luca)"
+                },
+                {
+                    "id": "F3",
+                    "positions": [
+                        5,
+                        6
+                    ],
+                    "winner": "Gli Agnolotti (Gabriel e Chio)",
+                    "team2": "Procopio United (Malaika e Tristan)",
+                    "team1": "Gli Agnolotti (Gabriel e Chio)",
+                    "loser": "Procopio United (Malaika e Tristan)",
+                    "title": "Finale 5º - 6º Posto"
+                },
+                {
+                    "loser": "I Nonni (Corrado e Simona)",
+                    "title": "Finale 7º - 8º Posto",
+                    "winner": "Neapolitan Baddies (Naima e Susy)",
+                    "team2": "Neapolitan Baddies (Naima e Susy)",
+                    "team1": "I Nonni (Corrado e Simona)",
+                    "positions": [
+                        7,
+                        8
+                    ],
+                    "id": "F4"
+                }
+            ],
+            "semis": {
+                "consolation": [
+                    {
+                        "winner": "Gli Agnolotti (Gabriel e Chio)",
+                        "team1": "Gli Agnolotti (Gabriel e Chio)",
+                        "team2": "I Nonni (Corrado e Simona)",
+                        "loser": "I Nonni (Corrado e Simona)",
+                        "id": "SC1"
+                    },
+                    {
+                        "winner": "Procopio United (Malaika e Tristan)",
+                        "team2": "Procopio United (Malaika e Tristan)",
+                        "team1": "Neapolitan Baddies (Naima e Susy)",
+                        "loser": "Neapolitan Baddies (Naima e Susy)",
+                        "id": "SC2"
+                    }
+                ],
+                "main": [
+                    {
+                        "loser": "Le Ladies (Sabrina ed Eloise)",
+                        "team2": "Le Ladies (Sabrina ed Eloise)",
+                        "team1": "Gli Interisti (Alessio e Alice)",
+                        "winner": "Gli Interisti (Alessio e Alice)",
+                        "id": "SM1"
+                    },
+                    {
+                        "loser": "EBrazy (Kevin e Luca)",
+                        "winner": "I Pastizzini (Savannah e Riccardo)",
+                        "team1": "I Pastizzini (Savannah e Riccardo)",
+                        "team2": "EBrazy (Kevin e Luca)",
+                        "id": "SM2"
+                    }
+                ]
+            },
+            "quarters": [
+                {
+                    "id": "Q1",
+                    "loser": "Gli Agnolotti (Gabriel e Chio)",
+                    "winner": "Gli Interisti (Alessio e Alice)",
+                    "team1": "Gli Agnolotti (Gabriel e Chio)",
+                    "team2": "Gli Interisti (Alessio e Alice)"
+                },
+                {
+                    "id": "Q2",
+                    "team1": "Le Ladies (Sabrina ed Eloise)",
+                    "team2": "I Nonni (Corrado e Simona)",
+                    "winner": "Le Ladies (Sabrina ed Eloise)",
+                    "loser": "I Nonni (Corrado e Simona)"
+                },
+                {
+                    "id": "Q3",
+                    "loser": "Neapolitan Baddies (Naima e Susy)",
+                    "winner": "I Pastizzini (Savannah e Riccardo)",
+                    "team2": "Neapolitan Baddies (Naima e Susy)",
+                    "team1": "I Pastizzini (Savannah e Riccardo)"
+                },
+                {
+                    "loser": "Procopio United (Malaika e Tristan)",
+                    "winner": "EBrazy (Kevin e Luca)",
+                    "team1": "EBrazy (Kevin e Luca)",
+                    "team2": "Procopio United (Malaika e Tristan)",
+                    "id": "Q4"
+                }
+            ]
+        },
+        "Bowling": {
+            "standings": {
+                "Neapolitan Baddies (Naima e Susy)": {
+                    "rank": 4,
+                    "points": 5
+                },
+                "Procopio United (Malaika e Tristan)": {
+                    "points": 6,
+                    "rank": 3
+                },
+                "Gli Agnolotti (Gabriel e Chio)": {
+                    "rank": 6,
+                    "points": 3
+                },
+                "EBrazy (Kevin e Luca)": {
+                    "points": 7,
+                    "rank": 2
+                },
+                "I Pastizzini (Savannah e Riccardo)": {
+                    "rank": 5,
+                    "points": 4
+                },
+                "I Nonni (Corrado e Simona)": {
+                    "rank": 8,
+                    "points": 1
+                },
+                "Le Ladies (Sabrina ed Eloise)": {
+                    "rank": 7,
+                    "points": 2
+                },
+                "Gli Interisti (Alessio e Alice)": {
+                    "rank": 1,
+                    "points": 8
+                }
+            },
+            "finals": [
+                {
+                    "winner": "Gli Interisti (Alessio e Alice)",
+                    "team2": "EBrazy (Kevin e Luca)",
+                    "team1": "Gli Interisti (Alessio e Alice)",
+                    "loser": "EBrazy (Kevin e Luca)",
+                    "title": "Finale 1º - 2º Posto",
+                    "id": "F1",
+                    "positions": [
+                        1,
+                        2
+                    ]
+                },
+                {
+                    "loser": "Neapolitan Baddies (Naima e Susy)",
+                    "title": "Finale 3º - 4º Posto",
+                    "winner": "Procopio United (Malaika e Tristan)",
+                    "team2": "Neapolitan Baddies (Naima e Susy)",
+                    "team1": "Procopio United (Malaika e Tristan)",
+                    "positions": [
+                        3,
+                        4
+                    ],
+                    "id": "F2"
+                },
+                {
+                    "id": "F3",
+                    "positions": [
+                        5,
+                        6
+                    ],
+                    "team2": "Gli Agnolotti (Gabriel e Chio)",
+                    "team1": "I Pastizzini (Savannah e Riccardo)",
+                    "winner": "I Pastizzini (Savannah e Riccardo)",
+                    "title": "Finale 5º - 6º Posto",
+                    "loser": "Gli Agnolotti (Gabriel e Chio)"
+                },
+                {
+                    "title": "Finale 7º - 8º Posto",
+                    "loser": "I Nonni (Corrado e Simona)",
+                    "team2": "I Nonni (Corrado e Simona)",
+                    "team1": "Le Ladies (Sabrina ed Eloise)",
+                    "winner": "Le Ladies (Sabrina ed Eloise)",
+                    "positions": [
+                        7,
+                        8
+                    ],
+                    "id": "F4"
+                }
+            ],
+            "semis": {
+                "consolation": [
+                    {
+                        "loser": "Le Ladies (Sabrina ed Eloise)",
+                        "winner": "I Pastizzini (Savannah e Riccardo)",
+                        "team1": "I Pastizzini (Savannah e Riccardo)",
+                        "team2": "Le Ladies (Sabrina ed Eloise)",
+                        "id": "SC1"
+                    },
+                    {
+                        "loser": "I Nonni (Corrado e Simona)",
+                        "team2": "Gli Agnolotti (Gabriel e Chio)",
+                        "team1": "I Nonni (Corrado e Simona)",
+                        "winner": "Gli Agnolotti (Gabriel e Chio)",
+                        "id": "SC2"
+                    }
+                ],
+                "main": [
+                    {
+                        "id": "SM1",
+                        "winner": "Gli Interisti (Alessio e Alice)",
+                        "team1": "Gli Interisti (Alessio e Alice)",
+                        "team2": "Procopio United (Malaika e Tristan)",
+                        "loser": "Procopio United (Malaika e Tristan)"
+                    },
+                    {
+                        "id": "SM2",
+                        "loser": "Neapolitan Baddies (Naima e Susy)",
+                        "winner": "EBrazy (Kevin e Luca)",
+                        "team1": "Neapolitan Baddies (Naima e Susy)",
+                        "team2": "EBrazy (Kevin e Luca)"
+                    }
+                ]
+            },
+            "quarters": [
+                {
+                    "loser": "I Pastizzini (Savannah e Riccardo)",
+                    "team1": "I Pastizzini (Savannah e Riccardo)",
+                    "team2": "Gli Interisti (Alessio e Alice)",
+                    "winner": "Gli Interisti (Alessio e Alice)",
+                    "id": "Q1"
+                },
+                {
+                    "id": "Q2",
+                    "winner": "Procopio United (Malaika e Tristan)",
+                    "team2": "Le Ladies (Sabrina ed Eloise)",
+                    "team1": "Procopio United (Malaika e Tristan)",
+                    "loser": "Le Ladies (Sabrina ed Eloise)"
+                },
+                {
+                    "winner": "Neapolitan Baddies (Naima e Susy)",
+                    "team1": "Neapolitan Baddies (Naima e Susy)",
+                    "team2": "I Nonni (Corrado e Simona)",
+                    "loser": "I Nonni (Corrado e Simona)",
+                    "id": "Q3"
+                },
+                {
+                    "loser": "Gli Agnolotti (Gabriel e Chio)",
+                    "winner": "EBrazy (Kevin e Luca)",
+                    "team2": "Gli Agnolotti (Gabriel e Chio)",
+                    "team1": "EBrazy (Kevin e Luca)",
+                    "id": "Q4"
+                }
+            ]
+        },
+        "Muffin Pong": {
+            "finals": [
+                {
+                    "id": "F1",
+                    "positions": [
+                        1,
+                        2
+                    ],
+                    "team2": "Gli Agnolotti (Gabriel e Chio)",
+                    "team1": "Gli Interisti (Alessio e Alice)",
+                    "winner": "Gli Agnolotti (Gabriel e Chio)",
+                    "title": "Finale 1º - 2º Posto",
+                    "loser": "Gli Interisti (Alessio e Alice)"
+                },
+                {
+                    "id": "F2",
+                    "positions": [
+                        3,
+                        4
+                    ],
+                    "team1": "I Nonni (Corrado e Simona)",
+                    "team2": "Neapolitan Baddies (Naima e Susy)",
+                    "winner": "I Nonni (Corrado e Simona)",
+                    "title": "Finale 3º - 4º Posto",
+                    "loser": "Neapolitan Baddies (Naima e Susy)"
+                },
+                {
+                    "title": "Finale 5º - 6º Posto",
+                    "loser": "Le Ladies (Sabrina ed Eloise)",
+                    "team1": "Le Ladies (Sabrina ed Eloise)",
+                    "team2": "EBrazy (Kevin e Luca)",
+                    "winner": "EBrazy (Kevin e Luca)",
+                    "positions": [
+                        5,
+                        6
+                    ],
+                    "id": "F3"
+                },
+                {
+                    "winner": "I Pastizzini (Savannah e Riccardo)",
+                    "team1": "I Pastizzini (Savannah e Riccardo)",
+                    "team2": "Procopio United (Malaika e Tristan)",
+                    "loser": "Procopio United (Malaika e Tristan)",
+                    "title": "Finale 7º - 8º Posto",
+                    "id": "F4",
+                    "positions": [
+                        7,
+                        8
+                    ]
+                }
+            ],
+            "quarters": [
+                {
+                    "id": "Q1",
+                    "loser": "Le Ladies (Sabrina ed Eloise)",
+                    "team2": "Le Ladies (Sabrina ed Eloise)",
+                    "team1": "I Nonni (Corrado e Simona)",
+                    "winner": "I Nonni (Corrado e Simona)"
+                },
+                {
+                    "id": "Q2",
+                    "loser": "I Pastizzini (Savannah e Riccardo)",
+                    "winner": "Gli Interisti (Alessio e Alice)",
+                    "team1": "Gli Interisti (Alessio e Alice)",
+                    "team2": "I Pastizzini (Savannah e Riccardo)"
+                },
+                {
+                    "winner": "Gli Agnolotti (Gabriel e Chio)",
+                    "team1": "Gli Agnolotti (Gabriel e Chio)",
+                    "team2": "Procopio United (Malaika e Tristan)",
+                    "loser": "Procopio United (Malaika e Tristan)",
+                    "id": "Q3"
+                },
+                {
+                    "id": "Q4",
+                    "loser": "EBrazy (Kevin e Luca)",
+                    "winner": "Neapolitan Baddies (Naima e Susy)",
+                    "team2": "Neapolitan Baddies (Naima e Susy)",
+                    "team1": "EBrazy (Kevin e Luca)"
+                }
+            ],
+            "semis": {
+                "consolation": [
+                    {
+                        "id": "SC1",
+                        "loser": "I Pastizzini (Savannah e Riccardo)",
+                        "team1": "Le Ladies (Sabrina ed Eloise)",
+                        "team2": "I Pastizzini (Savannah e Riccardo)",
+                        "winner": "Le Ladies (Sabrina ed Eloise)"
+                    },
+                    {
+                        "id": "SC2",
+                        "loser": "Procopio United (Malaika e Tristan)",
+                        "team2": "EBrazy (Kevin e Luca)",
+                        "team1": "Procopio United (Malaika e Tristan)",
+                        "winner": "EBrazy (Kevin e Luca)"
+                    }
+                ],
+                "main": [
+                    {
+                        "id": "SM1",
+                        "team1": "I Nonni (Corrado e Simona)",
+                        "team2": "Gli Interisti (Alessio e Alice)",
+                        "winner": "Gli Interisti (Alessio e Alice)",
+                        "loser": "I Nonni (Corrado e Simona)"
+                    },
+                    {
+                        "id": "SM2",
+                        "winner": "Gli Agnolotti (Gabriel e Chio)",
+                        "team1": "Gli Agnolotti (Gabriel e Chio)",
+                        "team2": "Neapolitan Baddies (Naima e Susy)",
+                        "loser": "Neapolitan Baddies (Naima e Susy)"
+                    }
+                ]
+            },
+            "standings": {
+                "EBrazy (Kevin e Luca)": {
+                    "rank": 5,
+                    "points": 4
+                },
+                "I Pastizzini (Savannah e Riccardo)": {
+                    "points": 2,
+                    "rank": 7
+                },
+                "I Nonni (Corrado e Simona)": {
+                    "points": 6,
+                    "rank": 3
+                },
+                "Gli Interisti (Alessio e Alice)": {
+                    "rank": 2,
+                    "points": 7
+                },
+                "Le Ladies (Sabrina ed Eloise)": {
+                    "rank": 6,
+                    "points": 3
+                },
+                "Neapolitan Baddies (Naima e Susy)": {
+                    "rank": 4,
+                    "points": 5
+                },
+                "Procopio United (Malaika e Tristan)": {
+                    "points": 1,
+                    "rank": 8
+                },
+                "Gli Agnolotti (Gabriel e Chio)": {
+                    "points": 8,
+                    "rank": 1
+                }
+            }
+        },
+        "Bocce": {
+            "semis": {
+                "consolation": [
+                    {
+                        "id": "SC1",
+                        "loser": "Le Ladies (Sabrina ed Eloise)",
+                        "winner": "Procopio United (Malaika e Tristan)",
+                        "team2": "Procopio United (Malaika e Tristan)",
+                        "team1": "Le Ladies (Sabrina ed Eloise)"
+                    },
+                    {
+                        "id": "SC2",
+                        "loser": "I Nonni (Corrado e Simona)",
+                        "winner": "Gli Interisti (Alessio e Alice)",
+                        "team2": "Gli Interisti (Alessio e Alice)",
+                        "team1": "I Nonni (Corrado e Simona)"
+                    }
+                ],
+                "main": [
+                    {
+                        "loser": "EBrazy (Kevin e Luca)",
+                        "team1": "EBrazy (Kevin e Luca)",
+                        "team2": "Gli Agnolotti (Gabriel e Chio)",
+                        "winner": "Gli Agnolotti (Gabriel e Chio)",
+                        "id": "SM1"
+                    },
+                    {
+                        "id": "SM2",
+                        "loser": "Neapolitan Baddies (Naima e Susy)",
+                        "winner": "I Pastizzini (Savannah e Riccardo)",
+                        "team1": "Neapolitan Baddies (Naima e Susy)",
+                        "team2": "I Pastizzini (Savannah e Riccardo)"
+                    }
+                ]
+            },
+            "quarters": [
+                {
+                    "loser": "Le Ladies (Sabrina ed Eloise)",
+                    "winner": "EBrazy (Kevin e Luca)",
+                    "team1": "EBrazy (Kevin e Luca)",
+                    "team2": "Le Ladies (Sabrina ed Eloise)",
+                    "id": "Q1"
+                },
+                {
+                    "id": "Q2",
+                    "winner": "Gli Agnolotti (Gabriel e Chio)",
+                    "team1": "Procopio United (Malaika e Tristan)",
+                    "team2": "Gli Agnolotti (Gabriel e Chio)",
+                    "loser": "Procopio United (Malaika e Tristan)"
+                },
+                {
+                    "id": "Q3",
+                    "team2": "I Nonni (Corrado e Simona)",
+                    "team1": "Neapolitan Baddies (Naima e Susy)",
+                    "winner": "Neapolitan Baddies (Naima e Susy)",
+                    "loser": "I Nonni (Corrado e Simona)"
+                },
+                {
+                    "winner": "I Pastizzini (Savannah e Riccardo)",
+                    "team2": "I Pastizzini (Savannah e Riccardo)",
+                    "team1": "Gli Interisti (Alessio e Alice)",
+                    "loser": "Gli Interisti (Alessio e Alice)",
+                    "id": "Q4"
+                }
+            ],
+            "finals": [
+                {
+                    "winner": "I Pastizzini (Savannah e Riccardo)",
+                    "team1": "Gli Agnolotti (Gabriel e Chio)",
+                    "team2": "I Pastizzini (Savannah e Riccardo)",
+                    "loser": "Gli Agnolotti (Gabriel e Chio)",
+                    "title": "Finale 1º - 2º Posto",
+                    "id": "F1",
+                    "positions": [
+                        1,
+                        2
+                    ]
+                },
+                {
+                    "id": "F2",
+                    "positions": [
+                        3,
+                        4
+                    ],
+                    "team2": "Neapolitan Baddies (Naima e Susy)",
+                    "team1": "EBrazy (Kevin e Luca)",
+                    "winner": "EBrazy (Kevin e Luca)",
+                    "title": "Finale 3º - 4º Posto",
+                    "loser": "Neapolitan Baddies (Naima e Susy)"
+                },
+                {
+                    "title": "Finale 5º - 6º Posto",
+                    "loser": "Gli Interisti (Alessio e Alice)",
+                    "team1": "Procopio United (Malaika e Tristan)",
+                    "team2": "Gli Interisti (Alessio e Alice)",
+                    "winner": "Procopio United (Malaika e Tristan)",
+                    "positions": [
+                        5,
+                        6
+                    ],
+                    "id": "F3"
+                },
+                {
+                    "id": "F4",
+                    "positions": [
+                        7,
+                        8
+                    ],
+                    "winner": "Le Ladies (Sabrina ed Eloise)",
+                    "team2": "I Nonni (Corrado e Simona)",
+                    "team1": "Le Ladies (Sabrina ed Eloise)",
+                    "loser": "I Nonni (Corrado e Simona)",
+                    "title": "Finale 7º - 8º Posto"
+                }
+            ],
+            "standings": {
+                "Gli Agnolotti (Gabriel e Chio)": {
+                    "rank": 2,
+                    "points": 7
+                },
+                "Procopio United (Malaika e Tristan)": {
+                    "rank": 5,
+                    "points": 4
+                },
+                "Neapolitan Baddies (Naima e Susy)": {
+                    "points": 5,
+                    "rank": 4
+                },
+                "Le Ladies (Sabrina ed Eloise)": {
+                    "rank": 7,
+                    "points": 2
+                },
+                "Gli Interisti (Alessio e Alice)": {
+                    "points": 3,
+                    "rank": 6
+                },
+                "I Nonni (Corrado e Simona)": {
+                    "points": 1,
+                    "rank": 8
+                },
+                "I Pastizzini (Savannah e Riccardo)": {
+                    "points": 8,
+                    "rank": 1
+                },
+                "EBrazy (Kevin e Luca)": {
+                    "points": 6,
+                    "rank": 3
+                }
+            }
+        }
+    },
+    "year": 2025
+}
