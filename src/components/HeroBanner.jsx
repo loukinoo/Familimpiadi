@@ -20,7 +20,7 @@ export default function HeroBanner({ state }) {
         </div>
         <h1 className="hero-title">Il Torneo Ufficiale della Famiglia 🏆</h1>
         <p className="hero-description">
-          Segui dal vivo i risultati, l'estrazione delle coppie e la classifica generale delle Familimpiadi.
+          Segui dal vivo i risultati, l'estrazione delle squadre e la classifica generale delle Familimpiadi.
         </p>
 
         <div className="hero-stats-grid">
@@ -40,7 +40,7 @@ export default function HeroBanner({ state }) {
             </div>
             <div className="stat-info">
               <span className="stat-value">{state.couples?.length || 0}</span>
-              <span className="stat-label">Coppie in Gara</span>
+              <span className="stat-label">Squadre in Gara</span>
             </div>
           </div>
 

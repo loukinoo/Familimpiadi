@@ -5,21 +5,20 @@
 
 import React from 'react';
 import { calculateOverallLeaderboard } from '../services/tournamentLogic';
-import { Trophy, Crown, Flame, Award } from 'lucide-react';
+import { Trophy, Crown, Flame } from 'lucide-react';
 
 export default function Leaderboard({ state }) {
   const leaderboard = calculateOverallLeaderboard(state.sportsData, state.couples);
   const sports = state.sports || [];
 
   const top3 = leaderboard.slice(0, 3);
-  const rest = leaderboard.slice(3);
 
   return (
     <div className="leaderboard-container animate-fade-in">
       <div className="leaderboard-header">
         <div className="header-badge">
           <Flame className="w-5 h-5 text-amber-400" />
-          <span>Edizione {state.year || 2025}</span>
+          <span>Edizione {state.year || 2026}</span>
         </div>
         <h2>Classifica Generale Familimpiadi</h2>
         <p>
@@ -73,7 +72,7 @@ export default function Leaderboard({ state }) {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Coppia</th>
+                <th>Squadra</th>
                 {sports.map((s) => (
                   <th key={s} className="text-center">{s}</th>
                 ))}

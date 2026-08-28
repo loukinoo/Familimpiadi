@@ -1,7 +1,7 @@
 /**
  * @file storageService.js
  * @description Gestore del salvataggio e recupero dati per Familimpiadi.
- * Supporta la selezione dell'anno corrente (2026), l'archivio 2025 e il reset Admin con conferma.
+ * Supporta l'edizione 2026 a 7 discipline (Freccette e Metratura incluse) e l'archivio 2025.
  */
 
 import { db } from '../config/firebase';
@@ -16,18 +16,22 @@ const ADMIN_PIN = '1234';
 // Lista delle edizioni disponibili
 export const AVAILABLE_YEARS = [2026, 2025];
 
+// 7 Discipline Ufficiali per il 2026 (Bowling sostituito con Freccette e Metratura)
+export const SPORTS_2026 = [
+  "Biliardino",
+  "Bocce",
+  "Equilibrio",
+  "Freccette",
+  "Memory",
+  "Metratura",
+  "Muffin Pong"
+];
+
 /**
- * Crea lo stato vuoto (blank) per un nuovo anno
+ * Crea lo stato vuoto per un anno specificato
  */
 export function createBlankYearState(year) {
-  const sports = [
-    "Biliardino",
-    "Bocce",
-    "Bowling",
-    "Equilibrio",
-    "Memory",
-    "Muffin Pong"
-  ];
+  const sports = year === 2025 ? default2025.sports : [...SPORTS_2026];
 
   const sportsData = {};
   sports.forEach((sport) => {
@@ -45,13 +49,58 @@ export function createBlankYearState(year) {
 }
 
 /**
+ * Migra e valida lo stato del 2026 assicurando le 7 discipline e il formato a 6 squadre
+ */
+function migrate2026State(state) {
+  if (!state || state.year !== 2026) return state;
+
+  let needsSave = false;
+
+  // 1. Assicura che la lista sport 2026 contenga Freccette e Metratura e non Bowling
+  if (!state.sports || state.sports.includes('Bowling') || !state.sports.includes('Freccette') || !state.sports.includes('Metratura')) {
+    state.sports = [...SPORTS_2026];
+    needsSave = true;
+  }
+
+  // 2. Assicura che ogni sport abbia la sua struttura dati inizializzata
+  if (!state.sportsData) {
+    state.sportsData = {};
+    needsSave = true;
+  }
+
+  state.sports.forEach((sport) => {
+    // Se lo sport non esiste o ha ancora il vecchio formato senza initialMatches e ci sono <= 6 squadre
+    if (!state.sportsData[sport] || (!state.sportsData[sport].initialMatches && (!state.couples || state.couples.length <= 6))) {
+      state.sportsData[sport] = createInitialTournamentState(state.couples || []);
+      needsSave = true;
+    }
+  });
+
+  // Rimuovi Bowling da sportsData se presente
+  if (state.sportsData['Bowling']) {
+    delete state.sportsData['Bowling'];
+    needsSave = true;
+  }
+
+  if (needsSave) {
+    saveStoredStateForYear(2026, state);
+  }
+
+  return state;
+}
+
+/**
  * Carica lo stato per un dato anno
  */
 export function getStoredStateForYear(year = 2026) {
   const saved = localStorage.getItem(`${STORAGE_KEY_PREFIX}state_${year}`);
   if (saved) {
     try {
-      return JSON.parse(saved);
+      const parsed = JSON.parse(saved);
+      if (year === 2026) {
+        return migrate2026State(parsed);
+      }
+      return parsed;
     } catch (e) {
       console.error("Errore parsing state year:", e);
     }
@@ -119,7 +168,12 @@ export function subscribeToYearState(year, callback) {
     const docRef = doc(db, "familimpiadi", `year_${year}`);
     return onSnapshot(docRef, (snapshot) => {
       if (snapshot.exists()) {
-        callback(snapshot.data());
+        const data = snapshot.data();
+        if (year === 2026) {
+          callback(migrate2026State(data));
+        } else {
+          callback(data);
+        }
       }
     });
   } catch (e) {

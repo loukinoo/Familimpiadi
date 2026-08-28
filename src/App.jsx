@@ -61,7 +61,7 @@ export default function App() {
   };
 
   // Salvataggio nuove coppie ed estrazione
-  const handleSaveCouples = (newCouples, newParticipants) => {
+  const handleSaveCouples = (newCouples, newParticipants, newDoubleWeight) => {
     updateState((prev) => {
       const newSportsData = {};
       (prev.sports || []).forEach((sport) => {
@@ -71,6 +71,7 @@ export default function App() {
       return {
         ...prev,
         participants: newParticipants || prev.participants,
+        doubleWeightParticipants: newDoubleWeight !== undefined ? newDoubleWeight : prev.doubleWeightParticipants,
         couples: newCouples,
         sportsData: newSportsData,
       };
