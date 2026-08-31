@@ -3,7 +3,7 @@
  * @description Gestore completo delle Squadre e Sorteggio Live per Familimpiadi 2026.
  * Supporta:
  * - 6 Squadre (con 2 o 3 componenti ciascuna).
- * - Gestione partecipanti con peso doppio ("Valgono come 2": es. Savannah e Simona).
+ * - Gestione partecipanti con peso doppio ("Valgono come 2": Savannah e Simona).
  * - Separazione rigorosa dei partecipanti doppi (mai nella stessa squadra) e divieto di terzetto per le loro squadre.
  * - Modifica diretta di nome squadra e componenti.
  * - Squadre / Coppie Predefinite (bloccate che non vengono sorteggiate).
@@ -29,7 +29,18 @@ import {
 import confetti from 'canvas-confetti';
 
 /**
- * Parsa una stringa squadra tipo "Gli Agnolotti (Gabriel, Chio & Kevin)" o "Luca e Kevin"
+ * Divide una stringa di membri usando separatori sicuri (senza dividere lettere interne come 'e' in Kevin, Alessio, etc.)
+ */
+function splitMembersString(str) {
+  if (!str || typeof str !== 'string') return [];
+  return str
+    .split(/\s*,\s*|\s+&\s+|\s+e\s+|\s+ed\s+|\s*&\s*/i)
+    .map((m) => m.trim())
+    .filter(Boolean);
+}
+
+/**
+ * Parsa una stringa squadra tipo "Gli Agnolotti (Gabriel, Chio & Kevin)" o "Luca & Kevin"
  */
 function parseTeamString(str, index) {
   if (!str || typeof str !== 'string') {
@@ -44,7 +55,7 @@ function parseTeamString(str, index) {
   const parenMatch = str.match(/^(.*?)\s*\((.*?)\)$/);
   if (parenMatch) {
     const rawName = parenMatch[1].trim();
-    const rawMembers = parenMatch[2].split(/[,&e]/).map((m) => m.trim()).filter(Boolean);
+    const rawMembers = splitMembersString(parenMatch[2]);
     return {
       id: index + 1,
       name: rawName,
@@ -53,7 +64,7 @@ function parseTeamString(str, index) {
     };
   }
 
-  const members = str.split(/[,&e]/).map((m) => m.trim()).filter(Boolean);
+  const members = splitMembersString(str);
   return {
     id: index + 1,
     name: str.startsWith('Squadra ') ? str : `Squadra ${index + 1}`,
@@ -203,7 +214,7 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
         return {
           ...t,
           members: [...t.members, nameToAdd],
-          isLocked: true, // Se aggiungi manualmente, considerala predefinita
+          isLocked: true,
         };
       }
       return t;
@@ -229,6 +240,12 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
       }
       return t;
     }));
+  };
+
+  // Svuota tutti i membri delle squadre non bloccate per ricominciare
+  const handleClearUnlockedTeams = () => {
+    if (!isAdmin) return;
+    setTeams(teams.map((t) => (t.isLocked ? t : { ...t, members: [] })));
   };
 
   // Trova partecipanti già assegnati a squadre bloccate
@@ -361,8 +378,8 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
         <div className="drawer-card">
           <div className="card-title-bar flex justify-between items-center">
             <h3>👥 Partecipanti Iscritti ({participants.length})</h3>
-            <span className="text-[11px] text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
-              ⭐ {doubleWeightList.length} con Valore 2
+            <span className="badge-double-counter">
+              ⭐ {doubleWeightList.length} Valore 2
             </span>
           </div>
 
@@ -401,7 +418,7 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
                 <span
                   key={person}
                   className={`participant-chip transition-all ${
-                    isDouble ? 'border-amber-400 bg-amber-950/40 text-amber-200 shadow-sm' : ''
+                    isDouble ? 'chip-double-weight' : ''
                   } ${isAssigned ? 'opacity-60 border-emerald-500/40 bg-emerald-950/40' : ''}`}
                 >
                   <span className="flex items-center gap-1">
@@ -411,11 +428,7 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
                   {isAdmin && (
                     <button
                       onClick={() => handleToggleDoubleWeight(person)}
-                      className={`text-[10px] px-1.5 py-0.2 rounded font-extrabold cursor-pointer transition-all ${
-                        isDouble
-                          ? 'bg-amber-400 text-slate-950 hover:bg-amber-300'
-                          : 'bg-slate-700 text-slate-300 hover:text-amber-300 hover:bg-slate-600'
-                      }`}
+                      className={`chip-double-btn ${isDouble ? 'chip-double-btn-active' : ''}`}
                       title={isDouble ? 'Rimuovi stato "Vale come 2"' : 'Imposta come "Vale come 2" (Doppio Peso)'}
                     >
                       {isDouble ? 'Vale 2' : '+ x2'}
@@ -453,15 +466,25 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
           </div>
 
           {isAdmin && (
-            <button
-              onClick={startRandomExtraction}
-              disabled={isDrawing || availablePool.length < 2}
-              className="btn-accent-gradient w-full mt-4"
-              title="Sorteggia i partecipanti disponibili rispettando le regole"
-            >
-              <Sparkles className="w-5 h-5" />
-              <span>{isDrawing ? 'Mescolamento in corso...' : '🎲 Estrai Squadre Rimanenti'}</span>
-            </button>
+            <div className="flex flex-col gap-2 mt-4">
+              <button
+                onClick={startRandomExtraction}
+                disabled={isDrawing || availablePool.length < 2}
+                className="btn-accent-gradient w-full"
+                title="Sorteggia i partecipanti disponibili rispettando le regole"
+              >
+                <Sparkles className="w-5 h-5" />
+                <span>{isDrawing ? 'Mescolamento in corso...' : '🎲 Estrai Squadre Rimanenti'}</span>
+              </button>
+
+              <button
+                onClick={handleClearUnlockedTeams}
+                className="btn-secondary text-xs w-full py-1.5 opacity-80 hover:opacity-100"
+                title="Svuota i componenti delle squadre libere per rifare il sorteggio da zero"
+              >
+                🔄 Reset Squadre Libere
+              </button>
+            </div>
           )}
         </div>
 
@@ -475,7 +498,7 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
             <span className="slot-text">{currentSlotText}</span>
           </div>
 
-          <div className="teams-management-list mt-3 flex flex-col gap-3">
+          <div className="teams-management-list mt-3">
             {teams.map((team, index) => {
               const isEditing = editingTeamId === team.id;
               const isAddingMember = addingMemberTeamId === team.id;
@@ -485,18 +508,18 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
               return (
                 <div
                   key={team.id}
-                  className={`team-edit-card p-3 rounded-lg border transition-all ${
+                  className={`team-edit-card ${
                     hasDoubleMember
-                      ? 'bg-slate-900/95 border-amber-400/50 shadow-md'
+                      ? 'team-edit-card-double'
                       : team.isLocked
-                      ? 'bg-slate-900/90 border-amber-500/30 shadow-sm'
-                      : 'bg-slate-800/70 border-slate-700'
+                      ? 'team-edit-card-locked'
+                      : ''
                   }`}
                 >
-                  {/* Intestazione Riga Squadra */}
-                  <div className="flex justify-between items-center mb-2">
-                    <div className="flex items-center gap-2 flex-1">
-                      <span className="text-xs font-black text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded">
+                  {/* Intestazione Riga Squadra: Indice + Nome Squadra + Azioni Lock/Edit */}
+                  <div className="team-card-header-row">
+                    <div className="team-card-title-group">
+                      <span className="team-index-badge">
                         #{index + 1}
                       </span>
 
@@ -519,19 +542,19 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
                           </button>
                         </div>
                       ) : (
-                        <span className="font-extrabold text-white text-sm flex items-center gap-1.5 flex-wrap">
-                          {team.name}
+                        <div className="team-name-text">
+                          <span>{team.name}</span>
                           {hasDoubleMember && (
-                            <span className="text-[10px] bg-amber-500/25 text-amber-300 font-extrabold px-1.5 py-0.2 rounded border border-amber-500/40">
+                            <span className="tag-double-val">
                               ⭐ Vale 3 (1+2)
                             </span>
                           )}
                           {isTrio && (
-                            <span className="text-[10px] bg-purple-500/30 text-purple-300 font-bold px-1.5 py-0.2 rounded border border-purple-500/40">
+                            <span className="tag-trio">
                               Terzetto (3)
                             </span>
                           )}
-                        </span>
+                        </div>
                       )}
                     </div>
 
@@ -549,10 +572,8 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
 
                         <button
                           onClick={() => handleToggleLock(team.id)}
-                          className={`p-1 rounded text-xs flex items-center gap-1 ${
-                            team.isLocked
-                              ? 'text-amber-300 bg-amber-500/20 border border-amber-500/40'
-                              : 'text-slate-400 bg-slate-800'
+                          className={`team-lock-btn ${
+                            team.isLocked ? 'team-lock-btn-active' : ''
                           }`}
                           title={team.isLocked ? 'Squadra Fissa / Predefinita (Non verrà sorteggiata)' : 'Squadra Libera (Verrà sorteggiata)'}
                         >
@@ -563,7 +584,7 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
                   </div>
 
                   {/* Lista Membri / Componenti della Squadra */}
-                  <div className="team-members-chips flex flex-wrap items-center gap-1.5 mt-1">
+                  <div className="team-members-chips">
                     {team.members.length === 0 ? (
                       <span className="text-xs text-slate-500 italic">Nessun componente (in attesa di sorteggio)</span>
                     ) : (
@@ -572,18 +593,16 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
                         return (
                           <span
                             key={member}
-                            className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full border ${
-                              isDoubleMember
-                                ? 'bg-amber-500/20 text-amber-200 border-amber-400/50 font-bold'
-                                : 'bg-slate-700/80 text-slate-200 border-slate-600'
+                            className={`team-member-pill ${
+                              isDoubleMember ? 'team-member-pill-double' : ''
                             }`}
                           >
-                            {isDoubleMember ? '⭐' : '👤'} {member}
+                            <span>{isDoubleMember ? '⭐' : '👤'} {member}</span>
                             {isDoubleMember && <span className="text-[9px] text-amber-300 font-extrabold">(x2)</span>}
                             {isAdmin && (
                               <button
                                 onClick={() => handleRemoveMemberFromTeam(team.id, member)}
-                                className="text-slate-400 hover:text-red-400 ml-0.5"
+                                className="text-slate-400 hover:text-red-400 ml-1"
                                 title="Rimuovi membro"
                               >
                                 <X className="w-3 h-3" />
@@ -604,7 +623,7 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
                                 setAddingMemberTeamId(team.id);
                                 setTempMemberName('');
                               }}
-                              className="text-[11px] text-amber-400 hover:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 px-2 py-0.5 rounded-full border border-amber-500/30 flex items-center gap-1"
+                              className="btn-add-member-pill"
                             >
                               <Plus className="w-3 h-3" />
                               <span>Aggiungi Compagno</span>
@@ -617,7 +636,7 @@ export default function LiveDrawer({ state, onSaveCouples, isAdmin }) {
                                 setAddingMemberTeamId(team.id);
                                 setTempMemberName('');
                               }}
-                              className="text-[11px] text-amber-400 hover:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 px-2 py-0.5 rounded-full border border-amber-500/30 flex items-center gap-1"
+                              className="btn-add-member-pill"
                             >
                               <Plus className="w-3 h-3" />
                               <span>{team.members.length === 2 ? 'Aggiungi 3º Membro' : 'Aggiungi Persona'}</span>

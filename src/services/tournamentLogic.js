@@ -3,9 +3,19 @@
  * @description Logica di generazione e avanzamento per tornei Familimpiadi.
  * Supporta:
  * - Punteggi e Differenza Reti/Punti per ogni partita.
+ * - Ridenominazione sicura delle squadre senza rimescolare i match esistenti.
  * - Edizione 2026 a 6 Squadre (3 Sfide Iniziali + 2 Triangolari Scudetto/Consolazione con spareggi e diff punti).
  * - Edizione Storica 2025 a 8 Squadre (Quarti, Semifinali, Finali piazzamento 1º-8º).
  */
+
+export const OFFICIAL_2026_COUPLES = [
+  "Luca & Cleide",
+  "Kevin & Margherita",
+  "Savannah & Sabrina & Riccardo",
+  "Simona & Alessio & Corrado",
+  "Susy & Eloise & Alice",
+  "Malaika & Naima"
+];
 
 // Punteggi per torneo a 6 squadre (2026)
 export const POINTS_MAP_6_TEAMS = {
@@ -44,13 +54,19 @@ export function shuffleArray(array) {
 /**
  * Inizializza la struttura dei match per una disciplina.
  */
-export function createInitialTournamentState(couples = [], randomize = true) {
+export function createInitialTournamentState(couples = [], randomize = false) {
   const is6Teams = couples.length <= 6;
 
   if (is6Teams) {
     let teams = [...couples];
+
+    // Se non vengono passate squadre o sono generiche, usa le 6 squadre ufficiali
+    if (teams.length === 0 || teams.every((t) => !t || t.startsWith('Squadra ') || t.startsWith('Coppia '))) {
+      teams = [...OFFICIAL_2026_COUPLES];
+    }
+
     while (teams.length < 6) {
-      teams.push(`Squadra ${teams.length + 1}`);
+      teams.push(OFFICIAL_2026_COUPLES[teams.length] || `Squadra ${teams.length + 1}`);
     }
 
     if (randomize && teams.length >= 2) {
@@ -131,6 +147,129 @@ export function createInitialTournamentState(couples = [], randomize = true) {
     ],
     standings: {},
   };
+}
+
+/**
+ * Aggiorna i nomi delle squadre in tutti i match dei tornei esistenti
+ * senza toccare né rimescolare gli accoppiamenti delle partite!
+ */
+export function renameTeamsInSportsData(sportsData = {}, oldCouples = [], newCouples = []) {
+  if (!sportsData) return {};
+
+  const renameMap = {};
+  oldCouples.forEach((oldName, idx) => {
+    const newName = newCouples[idx];
+    if (oldName && newName && oldName !== newName) {
+      renameMap[oldName] = newName;
+    }
+  });
+
+  // Mappa anche i placeholder generici
+  for (let i = 0; i < 6; i++) {
+    if (newCouples[i]) {
+      renameMap[`Squadra ${i + 1}`] = newCouples[i];
+      renameMap[`Coppia ${i + 1}`] = newCouples[i];
+    }
+  }
+
+  const updatedSportsData = JSON.parse(JSON.stringify(sportsData));
+
+  const replaceName = (name) => {
+    if (!name) return name;
+    return renameMap[name] || name;
+  };
+
+  Object.entries(updatedSportsData).forEach(([sportName, sportState]) => {
+    if (!sportState) return;
+
+    // 6-teams format
+    if (sportState.initialMatches) {
+      sportState.initialMatches.forEach((m) => {
+        m.team1 = replaceName(m.team1);
+        m.team2 = replaceName(m.team2);
+        m.winner = replaceName(m.winner);
+        m.loser = replaceName(m.loser);
+      });
+    }
+
+    if (sportState.triangolareScudetto) {
+      sportState.triangolareScudetto.teams = (sportState.triangolareScudetto.teams || []).map(replaceName);
+      (sportState.triangolareScudetto.matches || []).forEach((m) => {
+        m.team1 = replaceName(m.team1);
+        m.team2 = replaceName(m.team2);
+        m.winner = replaceName(m.winner);
+        m.loser = replaceName(m.loser);
+      });
+      if (Array.isArray(sportState.triangolareScudetto.manualRanking)) {
+        sportState.triangolareScudetto.manualRanking = sportState.triangolareScudetto.manualRanking.map(replaceName);
+      }
+      if (sportState.triangolareScudetto.standings) {
+        const newStandings = {};
+        Object.entries(sportState.triangolareScudetto.standings).forEach(([team, info]) => {
+          newStandings[replaceName(team)] = info;
+        });
+        sportState.triangolareScudetto.standings = newStandings;
+      }
+    }
+
+    if (sportState.triangolareConsolazione) {
+      sportState.triangolareConsolazione.teams = (sportState.triangolareConsolazione.teams || []).map(replaceName);
+      (sportState.triangolareConsolazione.matches || []).forEach((m) => {
+        m.team1 = replaceName(m.team1);
+        m.team2 = replaceName(m.team2);
+        m.winner = replaceName(m.winner);
+        m.loser = replaceName(m.loser);
+      });
+      if (Array.isArray(sportState.triangolareConsolazione.manualRanking)) {
+        sportState.triangolareConsolazione.manualRanking = sportState.triangolareConsolazione.manualRanking.map(replaceName);
+      }
+      if (sportState.triangolareConsolazione.standings) {
+        const newStandings = {};
+        Object.entries(sportState.triangolareConsolazione.standings).forEach(([team, info]) => {
+          newStandings[replaceName(team)] = info;
+        });
+        sportState.triangolareConsolazione.standings = newStandings;
+      }
+    }
+
+    // 8-teams format (2025)
+    if (sportState.quarters) {
+      sportState.quarters.forEach((m) => {
+        m.team1 = replaceName(m.team1);
+        m.team2 = replaceName(m.team2);
+        m.winner = replaceName(m.winner);
+        m.loser = replaceName(m.loser);
+      });
+      (sportState.semis?.main || []).forEach((m) => {
+        m.team1 = replaceName(m.team1);
+        m.team2 = replaceName(m.team2);
+        m.winner = replaceName(m.winner);
+        m.loser = replaceName(m.loser);
+      });
+      (sportState.semis?.consolation || []).forEach((m) => {
+        m.team1 = replaceName(m.team1);
+        m.team2 = replaceName(m.team2);
+        m.winner = replaceName(m.winner);
+        m.loser = replaceName(m.loser);
+      });
+      (sportState.finals || []).forEach((m) => {
+        m.team1 = replaceName(m.team1);
+        m.team2 = replaceName(m.team2);
+        m.winner = replaceName(m.winner);
+        m.loser = replaceName(m.loser);
+      });
+    }
+
+    if (sportState.standings) {
+      const newStandings = {};
+      Object.entries(sportState.standings).forEach(([team, info]) => {
+        newStandings[replaceName(team)] = info;
+      });
+      sportState.standings = newStandings;
+    }
+  });
+
+  return updatedSportsData;
 }
 
 /**
@@ -348,7 +487,6 @@ export function setMatchScores(tournamentState, matchId, score1, score2) {
   const num1 = score1 === '' || score1 === null || score1 === undefined ? null : parseInt(score1, 10);
   const num2 = score2 === '' || score2 === null || score2 === undefined ? null : parseInt(score2, 10);
 
-  // Trova il match in tutte le sezioni
   const findAndSet = (m) => {
     if (m.id === matchId) {
       m.score1 = num1;
@@ -373,7 +511,6 @@ export function setMatchScores(tournamentState, matchId, score1, score2) {
     state.triangolareScudetto?.matches?.forEach(findAndSet);
     state.triangolareConsolazione?.matches?.forEach(findAndSet);
 
-    // Propagazione
     return propagate6TeamsState(state);
   }
 
@@ -440,11 +577,9 @@ function propagate6TeamsState(state) {
     }
   });
 
-  // Calcola le classifiche dei due triangolari
   state.triangolareScudetto.standings = calculateTriangolareStandings(state.triangolareScudetto, 1);
   state.triangolareConsolazione.standings = calculateTriangolareStandings(state.triangolareConsolazione, 4);
 
-  // Unisci i piazzamenti nella classifica generale
   state.standings = {
     ...state.triangolareScudetto.standings,
     ...state.triangolareConsolazione.standings,

@@ -1109,3 +1109,203 @@ td {
     padding: 12px 8px;
   }
 }
+
+/* ==========================================================================
+   Utility Classes & Team Drawer Cards Styling
+   ========================================================================== */
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.gap-1 { gap: 4px; }
+.gap-1-5, .gap-1\.5 { gap: 6px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.flex-1 { flex: 1; }
+.shrink-0 { flex-shrink: 0; }
+.w-full { width: 100%; }
+
+.teams-management-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.team-edit-card {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-glass);
+  background: rgba(30, 41, 59, 0.85);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease;
+}
+
+.team-edit-card-locked {
+  background: rgba(15, 23, 42, 0.9);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.team-edit-card-double {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: rgba(251, 191, 36, 0.6);
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.15);
+}
+
+.team-card-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.team-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.team-index-badge {
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.team-name-text {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tag-trio {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #d8b4fe;
+  background: rgba(168, 85, 247, 0.25);
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.tag-double-val {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #fcd34d;
+  background: rgba(245, 158, 11, 0.25);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.team-lock-btn {
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid var(--border-glass);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-lock-btn-active {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: rgba(245, 158, 11, 0.5);
+}
+
+.team-members-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.team-member-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: rgba(51, 65, 85, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f1f5f9;
+}
+
+.team-member-pill-double {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: rgba(251, 191, 36, 0.5);
+  color: #fef08a;
+  font-weight: 800;
+}
+
+.btn-add-member-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px dashed rgba(245, 158, 11, 0.4);
+  padding: 4px 10px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-add-member-pill:hover {
+  background: rgba(245, 158, 11, 0.25);
+  border-style: solid;
+}
+
+.badge-double-counter {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #fcd34d;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 3px 8px;
+  border-radius: 9999px;
+}
+
+.chip-double-weight {
+  border-color: rgba(251, 191, 36, 0.6) !important;
+  background: rgba(245, 158, 11, 0.15) !important;
+  color: #fef08a !important;
+}
+
+.chip-double-btn {
+  font-size: 0.65rem;
+  font-weight: 900;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  background: rgba(51, 65, 85, 0.9);
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+.chip-double-btn-active {
+  background: #fbbf24;
+  color: #0f172a;
+  border-color: #f59e0b;
+}

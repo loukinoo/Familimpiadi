@@ -2,6 +2,7 @@
  * @file App.jsx
  * @description Componente radice dell'applicazione Familimpiadi.
  * Supporta la selezione dinamica dell'anno (2026/2025), lo stato vuoto iniziale e il reset Admin.
+ * Protezione database: le modifiche a Firestore avvengono esclusivamente con isAdmin abilitato.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -14,21 +15,23 @@ import HistoryArchive from './components/HistoryArchive';
 import SportsManager from './components/SportsManager';
 import AdminModal from './components/AdminModal';
 
+import { db } from './config/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 import {
   getStoredStateForYear,
   saveStoredStateForYear,
   subscribeToYearState,
   resetYearData,
 } from './services/storageService';
-import { createInitialTournamentState } from './services/tournamentLogic';
+import { createInitialTournamentState, renameTeamsInSportsData } from './services/tournamentLogic';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('leaderboard');
-  const [selectedYear, setSelectedYear] = useState(2026); // Default 2026!
+  const [selectedYear, setSelectedYear] = useState(2026);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
 
-  // Stato globale per l'anno selezionato (recuperato da localStorage/Firestore)
+  // Stato globale per l'anno selezionato (recuperato da localStorage/Firestore in sola lettura)
   const [appState, setAppState] = useState(() => getStoredStateForYear(2026));
 
   // Quando cambia l'anno selezionato, carica i dati corrispondenti
@@ -36,7 +39,7 @@ export default function App() {
     const loadedState = getStoredStateForYear(selectedYear);
     setAppState(loadedState);
 
-    // Sincronizzazione in tempo reale via Firestore
+    // Sincronizzazione in tempo reale via Firestore (SOLA LETTURA)
     const unsubscribe = subscribeToYearState(selectedYear, (remoteState) => {
       if (remoteState) {
         setAppState(remoteState);
@@ -46,27 +49,45 @@ export default function App() {
     return () => unsubscribe();
   }, [selectedYear]);
 
-  // Funzione helper per aggiornare e salvare lo stato dell'anno selezionato
+  // Funzione helper per aggiornare lo stato. Scrive su Firestore SOLO se isAdmin è attivo!
   const updateState = (updater) => {
     setAppState((prev) => {
       const nextState = typeof updater === 'function' ? updater(prev) : { ...prev, ...updater };
-      saveStoredStateForYear(selectedYear, nextState);
+      saveStoredStateForYear(selectedYear, nextState, isAdmin);
       return nextState;
     });
   };
 
-  // Aggiornamento dei dati dei tornei per ogni disciplina
+  // Aggiornamento dei dati dei tornei per ogni disciplina (solo Admin)
   const handleUpdateSportsData = (newSportsData) => {
+    if (!isAdmin) return;
     updateState({ sportsData: newSportsData });
   };
 
-  // Salvataggio nuove coppie ed estrazione
+  // Salvataggio squadre ed estrazione con protezione degli accoppiamenti (solo Admin)
   const handleSaveCouples = (newCouples, newParticipants, newDoubleWeight) => {
+    if (!isAdmin) return;
     updateState((prev) => {
-      const newSportsData = {};
-      (prev.sports || []).forEach((sport) => {
-        newSportsData[sport] = createInitialTournamentState(newCouples);
-      });
+      const prevCouples = prev.couples || [];
+      const hasExistingSportsData =
+        prev.sportsData && Object.keys(prev.sportsData).length > 0;
+
+      let newSportsData;
+
+      if (!hasExistingSportsData || prevCouples.length === 0) {
+        newSportsData = {};
+        (prev.sports || []).forEach((sport) => {
+          newSportsData[sport] = createInitialTournamentState(newCouples, true);
+        });
+      } else {
+        newSportsData = renameTeamsInSportsData(prev.sportsData, prevCouples, newCouples);
+
+        (prev.sports || []).forEach((sport) => {
+          if (!newSportsData[sport]) {
+            newSportsData[sport] = createInitialTournamentState(newCouples, false);
+          }
+        });
+      }
 
       return {
         ...prev,
@@ -79,13 +100,14 @@ export default function App() {
     setActiveTab('tournaments');
   };
 
-  // Aggiornamento lista sport ufficiali
+  // Aggiornamento lista sport ufficiali (solo Admin)
   const handleUpdateSportsList = (newSportsList) => {
+    if (!isAdmin) return;
     updateState((prev) => {
       const newSportsData = { ...prev.sportsData };
       newSportsList.forEach((sport) => {
         if (!newSportsData[sport]) {
-          newSportsData[sport] = createInitialTournamentState(prev.couples);
+          newSportsData[sport] = createInitialTournamentState(prev.couples, false);
         }
       });
       return {
@@ -96,13 +118,22 @@ export default function App() {
     });
   };
 
-  // Aggiornamento suggerimenti
+  // Aggiornamento suggerimenti (consentito agli utenti)
   const handleUpdateSuggestions = (newSuggestions) => {
     updateState({ suggestions: newSuggestions });
+    if (db) {
+      try {
+        const docRef = doc(db, "familimpiadi", `year_${selectedYear}`);
+        setDoc(docRef, { suggestions: newSuggestions }, { merge: true });
+      } catch (e) {
+        console.warn("Errore salvataggio suggerimenti:", e);
+      }
+    }
   };
 
   // Reset dell'anno corrente da parte dell'Admin
   const handleResetYearData = (yearToReset) => {
+    if (!isAdmin) return;
     const blank = resetYearData(yearToReset);
     setAppState(blank);
   };
